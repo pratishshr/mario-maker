@@ -1,7 +1,7 @@
 function Mario(canvas, ctx) {
 
-  this.x = canvas.width / 10;
-  this.y = canvas.height - 40;
+  this.x = canvas.width / 5;
+  this.y = canvas.height - 40 - 100;
   this.width = 32;
   this.height = 44;
   this.speed = 3;
@@ -13,6 +13,9 @@ function Mario(canvas, ctx) {
   this.sX = 1; // sprite x
   this.sY = 4; // sprite y
   this.frame = 0;
+
+  //check
+  var translatedDist = 0;
 
   var tickCounter = 0; //for animating mario
   var maxTick = 25;
@@ -27,7 +30,6 @@ function Mario(canvas, ctx) {
 
   this.draw = function() {
     that.sX = that.width * that.frame;
-
     ctx.drawImage(marioSprite, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
   }
 
@@ -53,6 +55,14 @@ function Mario(canvas, ctx) {
 
     if (keys[39]) {
       //right arrow
+      
+      var offsetX = (translatedDist)  + (1280 / 2);
+      
+      if(that.x > offsetX){
+        ctx.translate(-that.speed,0);
+        translatedDist += that.speed; 
+      }
+
       if (that.velX < that.speed) {
         that.velX++;
       }

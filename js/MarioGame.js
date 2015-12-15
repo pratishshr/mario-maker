@@ -1,69 +1,29 @@
 function MarioGame() {
   var canvas = document.getElementById('game-screen');
   var ctx = canvas.getContext('2d');
-  var width = 1350;
-  var height = 500;
-  var mario; // mario instance
-  var keys = [];
+  var width = 1280 * 3;
+  var height = 480;
 
+  var viewport = width/3;
+
+  var tileSize = 32;  
+  
+  var mario; // mario instance
+
+
+  var element;
+  var keys = []; //key presses
+ 
   var that = this;
 
-
-  //testing collisions
-   var map = [];
-  //testing map
-    map.push({
-      x: 0,
-      y: 0,
-      width: 10,
-      height: height
-    });
-    map.push({
-      x: 0,
-      y: height - 2,
-      width: width,
-      height: 50
-    });
-    map.push({
-      x: width - 10,
-      y: 0,
-      width: 50,
-      height: height
-    });
-    map.push({
-      x: 500,
-      y: 200,
-      width: 80,
-      height: 80
-    });
-    map.push({
-        x: 250,
-        y: 450,
-        width: 80,
-        height: 80
-    });
-    map.push({
-        x: 320,
-        y: 300,
-        width: 80,
-        height: 80
-    });
-    map.push({
-        x: 580,
-        y: 200,
-        width: 80,
-        height: 80
-    });
-
-
   this.init = function() {
-    canvas.width = width;
+    canvas.width = viewport;
     canvas.height = height;
     mario = new Mario(canvas, ctx);
     mario.init();
 
+    element = new Element();
     
-
     //key binding
     document.body.addEventListener("keydown", function(e) {
       keys[e.keyCode] = true;
@@ -73,6 +33,7 @@ function MarioGame() {
       keys[e.keyCode] = false;
     });
 
+    // that.renderMap();
     that.startGame();
   }
 
@@ -84,35 +45,99 @@ function MarioGame() {
     mario.draw();
     mario.update(keys);
 
-
-    that.wallCollision();
-
     requestAnimationFrame(that.startGame);
   }
 
-  this.renderMap = function(){
-    ctx.fillStyle = "black";
-    ctx.beginPath();
 
+  this.renderMap = function() {
     mario.grounded = false;
+    that.checkOffset();
 
-    for (var i = 0; i < map.length; i++) {
-      ctx.rect(map[i].x, map[i].y, map[i].width, map[i].height);
-      collDir = that.collCheck(mario, map[i]); //collision check with the map
-      
-      if(collDir == 'l' || collDir == 'r'){
-        mario.velX = 0;
-        mario.jumping = false;
-      }else if(collDir == 'b'){
-        mario.grounded = true;
-        mario.jumping = false;
-      }else if(collDir == 't'){
-        mario.velY *= -1;
+    for(var row = 0; row < map.length; row++) {
+      for(var column = 0; column < map[0].length; column++) {
+          switch(map[row][column]) {
+            case 1: 
+              element.x = column * tileSize;
+              element.y = row * tileSize;
+              element.platform();
+              element.draw(ctx);
+              collDir = that.collCheck(mario, element);
+              that.onCollision(collDir, element.type, row, column);
+              break;
+
+            case 2:
+              element.x = column * tileSize;
+              element.y = row * tileSize;
+              element.coinBox();
+              element.draw(ctx);
+              collDir = that.collCheck(mario, element);
+              that.onCollision(collDir, element.type, row, column);
+              break; 
+
+            case 3:
+              element.x = column * tileSize;
+              element.y = row * tileSize;
+              element.mushroomBox();
+              element.draw(ctx);
+              collDir = that.collCheck(mario, element);
+              that.onCollision(collDir, element.type, row, column);
+              break; 
+
+            case 4:
+              element.x = column * tileSize;
+              element.y = row * tileSize;
+              element.uselessBox();
+              element.draw(ctx);
+              collDir = that.collCheck(mario, element);
+              that.onCollision(collDir, element.type, row, column);
+              break;   
+          }
+          
       }
     }
-     
-    ctx.fill();
   }
+
+  this.checkOffset = function() {
+    offsetX = mario.x;
+  }
+
+  this.onCollision = function(collDir,type, row, column) {
+    if(collDir == 'l' || collDir == 'r'){
+      mario.velX = 0;
+      mario.jumping = false;
+    }else if(collDir == 'b'){
+      mario.grounded = true;
+      mario.jumping = false;
+    }else if(collDir == 't'){
+      mario.velY *= -1;
+      if(type == 3){
+        map[row][column] = 4;
+      }
+    }
+  }
+  // this.renderMap = function(){
+  //   ctx.fillStyle = "black";
+  //   ctx.beginPath();
+
+  //   mario.grounded = false;
+
+  //   for (var i = 0; i < block.length; i++) {
+  //     ctx.rect(block[i].x, block[i].y, block[i].width, block[i].height);
+  //     collDir = that.collCheck(mario, block[i]); //collision check with the block
+      
+      // if(collDir == 'l' || collDir == 'r'){
+      //   mario.velX = 0;
+      //   mario.jumping = false;
+      // }else if(collDir == 'b'){
+      //   mario.grounded = true;
+      //   mario.jumping = false;
+      // }else if(collDir == 't'){
+      //   mario.velY *= -1;
+      // }
+  //   }
+     
+  //   ctx.fill();
+  // }
 
   this.collCheck = function(objA, objB) {
     // get the vectors to check against
