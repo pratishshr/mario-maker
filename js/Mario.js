@@ -1,7 +1,8 @@
 function Mario(canvas, ctx) {
+  this.type;
 
-  this.x = canvas.width / 5;
-  this.y = canvas.height - 40 - 100;
+  this.x = canvas.width / 10;
+  this.y = canvas.height - 40 - 40;
   this.width = 32;
   this.height = 44;
   this.speed = 3;
@@ -10,12 +11,13 @@ function Mario(canvas, ctx) {
   this.jumping = false;
   this.grounded = false;
 
-  this.sX = 1; // sprite x
+  this.sX = 0; // sprite x
   this.sY = 4; // sprite y
   this.frame = 0;
 
-  //check
-  var translatedDist = 0;
+  //check 
+  var translatedDist = 0; //distance translated(side Scrolled) as mario moves to the right
+  var centerPos; //center position of the Viewport, viewable screen
 
   var tickCounter = 0; //for animating mario
   var maxTick = 25;
@@ -33,9 +35,20 @@ function Mario(canvas, ctx) {
     ctx.drawImage(marioSprite, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
   }
 
-  this.update = function(keys) {
+  this.checkMarioType = function() {
+    if(that.type == 'big'){
+      that.height = 60;
+
+      //big mario sprite position
+      that.sY = 90;
+    }
+  }
+
+  this.update = function(keys, maxWidth) {
     var friction = 0.9;
     var gravity = 0.2;
+
+    that.checkMarioType();
 
     if (keys[38] || keys[32]) {
       //up arrow
@@ -55,15 +68,9 @@ function Mario(canvas, ctx) {
 
     if (keys[39]) {
       //right arrow
-      
-      var offsetX = (translatedDist)  + (1280 / 2);
-      
-      if(that.x > offsetX){
-        ctx.translate(-that.speed,0);
-        translatedDist += that.speed; 
-      }
-
-      if (that.velX < that.speed) {
+      that.checkMarioPos(maxWidth);
+     
+      if (that.velX < that.speed && that.x) {
         that.velX++;
       }
 
@@ -133,4 +140,13 @@ function Mario(canvas, ctx) {
     that.x += that.velX;
     that.y += that.velY;
     }
+
+  this.checkMarioPos = function(maxWidth) {
+     centerPos = (translatedDist)  + (canvas.width / 2);
+      
+      if(that.x > centerPos && (centerPos + canvas.width/2) < maxWidth){
+        ctx.translate(-that.speed, 0);
+        translatedDist += that.speed; 
+      }
+  }  
 }

@@ -14,22 +14,22 @@ function Element() {
   var that = this;
  
   this.platform = function() {
-    this.type = 1;
+    that.type = 1;
     that.sX = 0;
   }
 
   this.coinBox = function() {
-    this.type = 2;
+    that.type = 2;
     that.sX = 1 * this.width;
   }
 
   this.mushroomBox = function(){
-    this.type = 3;
+    that.type = 3;
     that.sX = 2 * this.width;
   }
 
   this.uselessBox = function(){
-    this.type = 4;
+    that.type = 4;
     that.sX = 3 * this.width;
   }
 
