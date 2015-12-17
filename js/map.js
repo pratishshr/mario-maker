@@ -1,9 +1,9 @@
- // map index
- // 0 = nothing;
- // 1 = platform;
- // 2 = coinBox;
- // 3 = mushroomBox;
- // 4 = uselessBox;
+// map index
+// 0 = nothing;
+// 1 = platform;
+// 2 = coinBox;
+// 3 = mushroomBox;
+// 4 = uselessBox;
 
 
 var map = [

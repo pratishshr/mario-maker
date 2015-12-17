@@ -1,4 +1,16 @@
-#game-screen{
+.game-screen{
   border: 1px solid black;
   background: url('../images/bg.png');
+  margin: 0 auto;
+}
+
+.cell {
+  width: 31px;
+  height: 31px;
+  border: 1px solid blue;
+}
+
+.cell.active {
+  background: red;
+  opacity: 0.5;
 }
