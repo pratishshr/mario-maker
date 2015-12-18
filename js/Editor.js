@@ -136,7 +136,7 @@ function Editor() {
   }
 
   that.generateMap = function(){
-    var map = [];
+    var newMap = [];
     var gridRows = grid.getElementsByTagName('tr');
     
     for(var i = 0; i < gridRows.length; i++){
@@ -168,10 +168,10 @@ function Editor() {
         }
         columns.push(value);
       }
-      map.push(columns);
+      newMap.push(columns);
     }
 
-    console.log(map); 
+    map = newMap;
   }
 
   this.rightScroll = function() { 
@@ -189,5 +189,3 @@ function Editor() {
   }
 } 
 
-editor = new Editor();
-editor.init();

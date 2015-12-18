@@ -24,7 +24,7 @@ function MarioGame() {
   this.init = function() {
     canvas.width = viewport;
     canvas.height = height;
-
+    canvas.style.display = 'block';
   
     mario = new Mario(canvas, ctx);
     mario.init();
@@ -364,6 +364,3 @@ function MarioGame() {
     mario.resetPos();
   }
 }
-
-var marioGame = new MarioGame();
-marioGame.init();
