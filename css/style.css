@@ -1,16 +1,108 @@
-.game-screen{
+.editor-screen{
+  width: 1280px;
+  height: 480px;
+  margin: 0 auto;
   border: 1px solid black;
   background: url('../images/bg.png');
-  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  display: none;
 }
 
-.cell {
+.game-screen{
+  width: 1280px;
+  height: 480px;
+  border: 1px solid black;
+  background: url('../images/bg.png');
+}
+
+  .cell {
+    width: 31px;
+    height: 31px;
+    border: 1px solid blue;
+  }
+
+.active {
   width: 31px;
   height: 31px;
   border: 1px solid blue;
-}
-
-.cell.active {
   background: red;
   opacity: 0.5;
+}
+
+.element-wrapper{
+  width: 1280px;
+  height: 100px;
+  background: #d2d2d2;
+  margin: 0 auto;
+  border: 1px solid black;
+}
+
+.platform{
+  width: 31px;
+  height: 31px;
+  background: url('../images/elements.png') 0 0;
+}
+
+.coin-box{
+  width: 31px;
+  height: 31px;
+  background: url('../images/elements.png') 96px 0;
+}
+
+.mushroom-box{
+  width: 31px;
+  height: 31px;
+  background: url('../images/elements.png') 64px 0;
+}
+
+.useless-box{
+  width: 31px;
+  height: 31px;
+  background: url('../images/elements.png') 32px 0;
+}
+
+.right-arrow{
+  width: 60px;
+  height: 60px;
+  top: 215px;
+  right: 0;
+  background: url('../images/slider-right.png');
+  position: absolute;
+}
+
+.left-arrow{
+  width: 60px;
+  height: 60px;
+  top: 215px;
+  left: 0;
+  background: url('../images/slider-left.png');
+  position: absolute;
+}
+
+.element-wrapper .mushroom-box{
+  margin: 10px;
+  float: left;
+}
+
+.element-wrapper .useless-box{
+  margin: 10px;
+  float: left;
+}
+
+.element-wrapper .coin-box{
+  margin: 10px;
+  float: left;
+}
+
+.element-wrapper .platform{
+ margin: 10px;
+ float: left;
+}
+
+.generate-map{
+  float: right;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
 }

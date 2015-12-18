@@ -24,6 +24,8 @@ function MarioGame() {
   this.init = function() {
     canvas.width = viewport;
     canvas.height = height;
+
+  
     mario = new Mario(canvas, ctx);
     mario.init();
 
