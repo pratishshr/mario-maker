@@ -1,10 +1,16 @@
 function MarioMaker() {
-  var marioGame;
-  var editor;
+  var marioGame = new MarioGame();
+  var editor = new Editor();
+
+  var editorButton;
+  var editorStarted = 0;
+
+  var startGameButton;
+  var gameStarted = 0;
 
   this.init = function() {
-    var editorButton = document.createElement('button');
-    var startGameButton = document.createElement('button');
+    editorButton = document.createElement('button');
+    startGameButton = document.createElement('button');
 
     editorButton.innerHTML = 'Level Editor';
     startGameButton.innerHTML = 'Start Game';
@@ -17,13 +23,29 @@ function MarioMaker() {
   }
 
   this.startEditor = function() {
-    editor = new Editor();
-    editor.init();
+    if(editorStarted == 0) {
+      editor.init();
+      editorStarted = 1;
+    }else {
+      editor.showEditorScreen();
+    }
+    marioGame.removeGameScreen();
+ 
+    editorButton.style.display = 'none';
+    startGameButton.style.display = 'block';
   }
 
   this.startGame = function() {
-    marioGame = new MarioGame();
-    marioGame.init();
+    if(gameStarted == 0) {
+      marioGame.init();
+      gameStarted = 1;
+    }else{
+      marioGame.showGameScreen();   
+    } 
+    editor.removeEditorScreen();
+
+    startGameButton.style.display = 'none';
+    editorButton.style.display = 'block';
   }
 
 }

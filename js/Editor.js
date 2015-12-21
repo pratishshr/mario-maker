@@ -2,6 +2,7 @@ function Editor() {
   var gameWorld; //total game screen
   var viewPort; //viewable screen
   var grid;
+  var elementwrapper; 
 
   var maxWidth = 1280 * 3;
   var height = 480;
@@ -39,11 +40,11 @@ function Editor() {
 
     rightArrow.className = 'right-arrow';
     leftArrow.className = 'left-arrow';
- 
-    viewPort.appendChild(gameWorld);
+    
     viewPort.appendChild(rightArrow);
     viewPort.appendChild(leftArrow);
-  
+    viewPort.appendChild(gameWorld);
+   
     rightArrow.addEventListener('click', that.rightScroll);
     leftArrow.addEventListener('click', that.leftScroll);
 
@@ -101,9 +102,9 @@ function Editor() {
   }
 
   this.showElements = function(){
-    var elementWrapper = document.createElement('div');
+    elementWrapper = document.createElement('div');
     var generateMap = document.createElement('button');
-    var elements = ['platform', 'coin-box', 'mushroom-box', 'useless-box'];
+    var elements = ['platform', 'coin-box', 'mushroom-box', 'useless-box', 'goomba'];
     var element;
 
     elementWrapper.className = 'element-wrapper';
@@ -162,6 +163,10 @@ function Editor() {
             value = 4;
             break;
 
+          case 'goomba':
+            value = 20;
+            break;
+            
           default:
             value = 0;
             break;  
@@ -187,5 +192,19 @@ function Editor() {
       gameWorld.style.marginLeft = scrollMargin + 'px'; 
     }
   }
+
+  this.removeEditorScreen = function() {
+    if(viewPort){
+      viewPort.style.display = 'none';
+      elementWrapper.style.display = 'none';
+    }
+  }
+
+  this.showEditorScreen = function() {
+    if(viewPort){
+      viewPort.style.display = 'block';
+      elementWrapper.style.display = 'block';
+    }
+  } 
 } 
 
