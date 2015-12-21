@@ -1,5 +1,5 @@
 function Mario(canvas, ctx) {
-  this.type;
+  this.type = 'small';
 
   this.x = canvas.width / 10;
   this.y = canvas.height - 40 - 40;
@@ -42,8 +42,9 @@ function Mario(canvas, ctx) {
   }
 
   this.resetPos = function(){
-    this.x = canvas.width / 10;
-    this.y = canvas.height - 40 - 500;
+    that.x = canvas.width / 10;
+    that.y = canvas.height - 40 - 500;
+    that.frame = 0;
   }
 
   // this.update = function(keys, maxWidth) {

@@ -21,9 +21,11 @@ function MarioGame() {
   var tickCounter = 0; //for animating mario
   var maxTick = 25; //max number for ticks to show mario sprite
 
+  var pause = false;
   var that = this;
 
-  this.init = function() {
+  this.init = function(levelMap) {
+    map = levelMap;
     canvas.width = viewport;
     canvas.height = height;
     canvas.style.display = 'block';
@@ -68,7 +70,9 @@ function MarioGame() {
       powerUps[i].update();
     }
 
-    window.requestAnimationFrame(that.startGame);
+    if(!pause){
+      window.requestAnimationFrame(that.startGame);
+    }
   }
 
   this.renderMap = function() {
@@ -95,6 +99,7 @@ function MarioGame() {
             that.onCollision(element, collisionDirection, row, column);
             
             that.checkPowerUpCollision(element);
+            that.checkEnemyCollision(element);
             break;
 
           case 2:
@@ -107,6 +112,7 @@ function MarioGame() {
             that.onCollision(element, collisionDirection, row, column);
            
             that.checkPowerUpCollision(element);
+            that.checkEnemyCollision(element);
             break;
 
           case 3:
@@ -119,6 +125,7 @@ function MarioGame() {
             that.onCollision(element, collisionDirection, row, column);
            
             that.checkPowerUpCollision(element);
+            that.checkEnemyCollision(element);
             break;
 
           case 4:
@@ -131,6 +138,7 @@ function MarioGame() {
             that.onCollision(element, collisionDirection, row, column);
             
             that.checkPowerUpCollision(element);
+            that.checkEnemyCollision(element);
             break;
 
           case 20: 
@@ -238,10 +246,6 @@ function MarioGame() {
       }
     }
 
-    for(var i = 0; i < goombas.length; i++){
-      var collisionDirection = that.collisionCheck(goombas[i], element);
-      that.onPowerUpCollision(goombas[i], collisionDirection);
-    }
 
   }
 
@@ -256,6 +260,42 @@ function MarioGame() {
 
   }
 
+  this.checkEnemyCollision = function(element) {
+    for(var i = 0; i < goombas.length; i++){
+      var collisionDirection = that.collisionCheck(goombas[i], element);
+      var collWithMario = that.collisionCheck(goombas[i], mario);
+
+      that.onEnemyCollision(goombas[i], collisionDirection);
+      if(collWithMario == 't') {
+        goombas.splice(i,1);
+        mario.velY = -((mario.speed));
+      }else if(collWithMario == 'r' || collWithMario == 'l' || collWithMario == 'b'){
+        goombas[i].velX *= -1;
+        if(mario.type == 'big'){
+          mario.type = 'small';
+        }else if(mario.type == 'small'){
+          mario.frame = 13;
+          pause = true;
+          setTimeout(function() {
+            that.resetGame();
+          }, 1000); 
+        }
+
+      }
+    }
+  }
+
+
+  this.onEnemyCollision = function(enemy, collisionDirection) {
+    if (collisionDirection == 'l' || collisionDirection == 'r') {
+      enemy.velX *= -1;
+    } else if (collisionDirection == 'b') {
+      enemy.grounded = true;
+    } else if (collisionDirection == 't') {
+
+    }
+
+  }
   this.wallCollision = function() {
     //for walls
     if (mario.x >= maxWidth - mario.width) {
@@ -266,6 +306,7 @@ function MarioGame() {
 
     //for ground
     if (mario.y >= height) {
+      pause = true;
       setTimeout(function() {
         that.resetGame();
       }, 1000); 
@@ -381,7 +422,9 @@ function MarioGame() {
   }
 
   this.resetGame = function() {
-   
+    pause = false;
+    that.startGame();
+
     ctx.translate(translatedDist, 0);
     translatedDist = 0;
 

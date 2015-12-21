@@ -104,12 +104,17 @@ function Editor() {
   this.showElements = function(){
     elementWrapper = document.createElement('div');
     var generateMap = document.createElement('button');
+    var saveMap = document.createElement('button');
+
     var elements = ['platform', 'coin-box', 'mushroom-box', 'useless-box', 'goomba'];
     var element;
 
     elementWrapper.className = 'element-wrapper';
-    generateMap.className = 'generate-map';
-    generateMap.innerHTML = "Generate Map";
+    generateMap.className = 'button';
+    generateMap.innerHTML = 'Generate Map';
+
+    saveMap.className = 'button';
+    saveMap.innerHTML = 'Save Map';
 
     for(i=0; i < elements.length; i++){ 
       element = document.createElement('div');
@@ -124,8 +129,10 @@ function Editor() {
     }
 
     elementWrapper.appendChild(generateMap);
+    elementWrapper.appendChild(saveMap);
     document.body.appendChild(elementWrapper);
 
+    saveMap.addEventListener('click', that.saveMap);
     generateMap.addEventListener('click', that.generateMap);
   }
 
@@ -177,6 +184,19 @@ function Editor() {
     }
 
     map = newMap;
+   
+  }
+
+  this.saveMap = function() {
+    var levelCounter = localStorage.getItem('levelCounter') || 0;
+    that.generateMap();
+    levelCounter++;
+    levelName = 'savedLevel' + levelCounter;
+    
+    localStorage.setItem(levelName, JSON.stringify(map));
+    localStorage.setItem('levelCounter', levelCounter);
+    //alert('map saved');
+    console.log(localStorage.getItem(levelName));
   }
 
   this.rightScroll = function() { 

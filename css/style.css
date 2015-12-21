@@ -18,11 +18,11 @@
   margin: 0 auto;
 }
 
-  .cell {
-    width: 31px;
-    height: 31px;
-    border: 1px solid blue;
-  }
+.cell {
+  width: 31px;
+  height: 31px;
+  border: 1px solid blue;
+}
 
 .active {
   width: 31px;
@@ -113,10 +113,19 @@
   float: left;
 }
 
-.generate-map{
+.button{
   float: right;
   width: 100px;
   height: 100px;
   margin: 0 auto;
 }
 
+.levelsWrapper{
+  width: 1280px;
+  height: 480px;
+  margin: 0 auto;
+  border: 1px solid black;
+  position: relative;
+  overflow: hidden;
+  display: none;
+}
