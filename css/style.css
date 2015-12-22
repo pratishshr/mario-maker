@@ -1,3 +1,12 @@
+.start-screen{
+  width: 1280px;
+  height: 480px;
+  margin: 0 auto;
+  border: 1px solid black;
+  background: url('../images/start-screen.png');
+  position: relative;
+}
+
 .editor-screen{
   width: 1280px;
   height: 480px;
@@ -38,6 +47,7 @@
   background: #d2d2d2;
   margin: 0 auto;
   border: 1px solid black;
+  display: none;
 }
 
 .platform{
@@ -120,7 +130,7 @@
   margin: 0 auto;
 }
 
-.levelsWrapper{
+.levels-wrapper{
   width: 1280px;
   height: 480px;
   margin: 0 auto;
@@ -128,4 +138,68 @@
   position: relative;
   overflow: hidden;
   display: none;
+  background: url('../images/bg.png');
+}
+
+.start-btn{
+  width: 200px;
+  height: 50px;
+  color: #ffffff;
+  background: url('../images/start-btn.png');
+  position: absolute;
+  bottom: 100px;
+  left: 250px;
+  border: 2px solid black;
+}
+
+.editor-btn{
+  width: 200px;
+  height: 50px;
+  background: url('../images/editor-btn.png');
+  position: absolute;
+  bottom: 100px;
+  left: 525px;
+  color: #ffffff;
+  border: 2px solid black;
+}
+
+.created-btn{
+  width: 200px;
+  height: 50px;
+  background: url('../images/saved-btn.png');
+  position: absolute;
+  bottom: 100px;
+  left: 800px;
+  color: #ffffff;
+  border: 2px solid black;
+}
+
+.back-btn{
+  width: 200px;
+  height: 50px;
+  background: url('../images/back-btn.png');
+  color: #ffffff;
+  border: 2px solid black;
+  margin: 10px;
+  display: none;
+}
+
+.level-btn{
+  float: left;
+  line-height: 50px;
+  text-align: center;
+  width: 248px;
+  height: 50px;
+  color: #ffffff;
+  border: 2px solid black;
+  margin: 2px;
+  text-transform: uppercase;
+  font-weight: bold;
+  background: #e63e2b;
+}
+
+.btn-wrapper{
+  width: 1280px;
+  height: 100px;
+  margin: 0 auto;
 }

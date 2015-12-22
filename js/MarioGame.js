@@ -5,6 +5,7 @@ function MarioGame() {
   var height = 480;
   var viewport = maxWidth / 3; //width of canvas, viewport that can be seen
   var tileSize = 32;
+  var map;
 
   var translatedDist = 0; //distance translated(side scrolled) as mario moves to the right
   var centerPos; //center position of the Viewport, viewable screen
@@ -21,11 +22,13 @@ function MarioGame() {
   var tickCounter = 0; //for animating mario
   var maxTick = 25; //max number for ticks to show mario sprite
 
-  var pause = false;
+  this.pause = false;
+
   var that = this;
 
   this.init = function(levelMap) {
     map = levelMap;
+    that.pause = false;
     canvas.width = viewport;
     canvas.height = height;
     canvas.style.display = 'block';
@@ -37,6 +40,9 @@ function MarioGame() {
 
     gameSound = new GameSound();
     gameSound.init();
+
+    goombas = [];
+    powerUps = [];
 
     //key binding
     document.body.addEventListener('keydown', function(e) {
@@ -70,7 +76,7 @@ function MarioGame() {
       powerUps[i].update();
     }
 
-    if(!pause){
+    if(!that.pause){
       window.requestAnimationFrame(that.startGame);
     }
   }
@@ -275,7 +281,7 @@ function MarioGame() {
           mario.type = 'small';
         }else if(mario.type == 'small'){
           mario.frame = 13;
-          pause = true;
+          that.pause = true;
           setTimeout(function() {
             that.resetGame();
           }, 1000); 
@@ -306,7 +312,7 @@ function MarioGame() {
 
     //for ground
     if (mario.y >= height) {
-      pause = true;
+      that.pause = true;
       setTimeout(function() {
         that.resetGame();
       }, 1000); 
@@ -422,14 +428,15 @@ function MarioGame() {
   }
 
   this.resetGame = function() {
-    pause = false;
-    that.startGame();
+    mario = null;
+    element = null;
+    gameSound = null;
+   
+    that.pause = false;
+    that.init(map);
 
-    ctx.translate(translatedDist, 0);
     translatedDist = 0;
 
-    mario.type = 'small';
-    mario.resetPos();
   }
 
   this.removeGameScreen = function() {

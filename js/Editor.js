@@ -102,14 +102,14 @@ function Editor() {
   }
 
   this.showElements = function(){
-    elementWrapper = document.createElement('div');
+    elementWrapper = document.getElementsByClassName('element-wrapper')[0];
     var generateMap = document.createElement('button');
     var saveMap = document.createElement('button');
 
     var elements = ['platform', 'coin-box', 'mushroom-box', 'useless-box', 'goomba'];
     var element;
 
-    elementWrapper.className = 'element-wrapper';
+    elementWrapper.style.display = 'block';
     generateMap.className = 'button';
     generateMap.innerHTML = 'Generate Map';
 
@@ -130,7 +130,6 @@ function Editor() {
 
     elementWrapper.appendChild(generateMap);
     elementWrapper.appendChild(saveMap);
-    document.body.appendChild(elementWrapper);
 
     saveMap.addEventListener('click', that.saveMap);
     generateMap.addEventListener('click', that.generateMap);
