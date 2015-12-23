@@ -1,8 +1,8 @@
 function Mario(canvas, ctx) {
   this.type = 'small';
 
-  this.x = canvas.width / 10;
-  this.y = canvas.height - 40 - 40;
+  this.x;
+  this.y;
   this.width = 32;
   this.height = 44;
   this.speed = 3;
@@ -18,6 +18,8 @@ function Mario(canvas, ctx) {
   var that = this;
 
   this.init = function() {
+    that.x = 10;
+    that.y = canvas.height - 40 - 40;
     marioSprite = new Image();
     marioSprite.src = 'images/mario-sprites.png';
   }

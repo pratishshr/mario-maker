@@ -103,19 +103,15 @@ function Editor() {
 
   this.showElements = function(){
     elementWrapper = document.getElementsByClassName('element-wrapper')[0];
-    var generateMap = document.createElement('button');
     var saveMap = document.createElement('button');
 
     var elements = ['platform', 'coin-box', 'mushroom-box', 'useless-box', 'goomba'];
     var element;
 
     elementWrapper.style.display = 'block';
-    generateMap.className = 'button';
-    generateMap.innerHTML = 'Generate Map';
 
-    saveMap.className = 'button';
-    saveMap.innerHTML = 'Save Map';
-
+    saveMap.className = 'save-map-btn';
+   
     for(i=0; i < elements.length; i++){ 
       element = document.createElement('div');
       element.className = elements[i];
@@ -128,11 +124,9 @@ function Editor() {
       elementWrapper.appendChild(element);
     }
 
-    elementWrapper.appendChild(generateMap);
     elementWrapper.appendChild(saveMap);
 
     saveMap.addEventListener('click', that.saveMap);
-    generateMap.addEventListener('click', that.generateMap);
   }
 
   this.drawElement = function(element){
@@ -140,6 +134,23 @@ function Editor() {
       selectedElement[i].className = element;
     }
     selectedElement = [];
+  }
+
+  this.saveMap = function() {
+    var levelCounter = localStorage.getItem('levelCounter') || 0;
+    that.generateMap();
+    levelCounter++;
+
+    if(levelCounter < 10){
+      levelName = 'savedLevel' + '0' + levelCounter;
+    }else{
+      levelName = 'savedLevel' + levelCounter;
+    }
+    
+    localStorage.setItem(levelName, JSON.stringify(map));
+    localStorage.setItem('levelCounter', levelCounter);
+    //alert('map saved');
+    console.log(localStorage.getItem(levelName));
   }
 
   that.generateMap = function(){
@@ -186,18 +197,7 @@ function Editor() {
    
   }
 
-  this.saveMap = function() {
-    var levelCounter = localStorage.getItem('levelCounter') || 0;
-    that.generateMap();
-    levelCounter++;
-    levelName = 'savedLevel' + levelCounter;
-    
-    localStorage.setItem(levelName, JSON.stringify(map));
-    localStorage.setItem('levelCounter', levelCounter);
-    //alert('map saved');
-    console.log(localStorage.getItem(levelName));
-  }
-
+  
   this.rightScroll = function() { 
     if(scrollMargin > -(maxWidth - 1280)) {
       scrollMargin += -160;

@@ -6,6 +6,7 @@ function MarioGame() {
   var viewport = maxWidth / 3; //width of canvas, viewport that can be seen
   var tileSize = 32;
   var map;
+  var originalMap;
 
   var translatedDist = 0; //distance translated(side scrolled) as mario moves to the right
   var centerPos; //center position of the Viewport, viewable screen
@@ -27,7 +28,10 @@ function MarioGame() {
   var that = this;
 
   this.init = function(levelMap) {
-    map = levelMap;
+   
+    map = JSON.parse(JSON.stringify(levelMap));
+    originalMap = JSON.parse(JSON.stringify(levelMap));
+
     that.pause = false;
     canvas.width = viewport;
     canvas.height = height;
@@ -431,9 +435,9 @@ function MarioGame() {
     mario = null;
     element = null;
     gameSound = null;
-   
+
     that.pause = false;
-    that.init(map);
+    that.init(originalMap);
 
     translatedDist = 0;
 

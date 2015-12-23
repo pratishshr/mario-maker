@@ -9,7 +9,7 @@ function Element() {
   this.height = 32;
 
   var element =  new Image();;
-  element.src = "images/elements.png";
+  element.src = 'images/elements.png';
 
   var that = this;
  

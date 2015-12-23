@@ -1,5 +1,4 @@
-var MarioMaker = (function(){
-  function MarioMaker() {
+ function MarioMaker() {
   var marioGame = new MarioGame();
   var editor = new Editor();
   var createdLevels = new CreatedLevels(marioGame);
@@ -124,19 +123,7 @@ var MarioMaker = (function(){
   }
 }
 
-var instance;
 
-return{
-  getInstance: function(){
-    if(instance == null){
-      instance = new MarioMaker();
-      instance.constructor = null;
-    }
-    return instance;
-  }
-}
-}());
-
-var marioMaker = MarioMaker.getInstance();
+var marioMaker = new MarioMaker();
 marioMaker.init();
 

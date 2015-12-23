@@ -1,3 +1,5 @@
+@font-face { font-family: SuperMario256; src: url('../fonts/SuperMario256.ttf'); } 
+
 .start-screen{
   width: 1280px;
   height: 480px;
@@ -123,11 +125,13 @@
   float: left;
 }
 
-.button{
+.save-map-btn{
   float: right;
   width: 100px;
   height: 100px;
-  margin: 0 auto;
+  background: url('../images/save-map-btn.png');
+  border: none;
+  border: 2px solid black;
 }
 
 .levels-wrapper{
@@ -185,6 +189,8 @@
 }
 
 .level-btn{
+  font-family: SuperMario256;
+  font-size: 25px;
   float: left;
   line-height: 50px;
   text-align: center;
@@ -195,11 +201,35 @@
   margin: 2px;
   text-transform: uppercase;
   font-weight: bold;
-  background: #e63e2b;
+  background: #15a7d9;
+}
+
+
+.delete-all-btn{
+  width: 100px;
+  height: 100px;
+  background: url('../images/delete-all-btn.png');
+  color: #ffffff;
+  border: 2px solid black;
+  margin: 10px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;  
 }
 
 .btn-wrapper{
   width: 1280px;
   height: 100px;
   margin: 0 auto;
+}
+
+.no-maps{
+  width: 1000px;
+  text-align: center;
+  font-family: SuperMario256;
+  font-size: 25px;
+  margin: 0 auto;
+  color: #ffffff;
+  background: #5fb952;
+  border: 2px solid black;
 }
