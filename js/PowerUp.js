@@ -12,7 +12,7 @@ function PowerUp() {
   this.height = 32;
 
   var element =  new Image();;
-  element.src = "images/powerUps.png";
+  element.src = "images/powerups.png";
 
   var that = this;
 
