@@ -104,6 +104,7 @@ function Editor() {
   this.showElements = function(){
     elementWrapper = document.getElementsByClassName('element-wrapper')[0];
     var saveMap = document.createElement('button');
+    var clearMap = document.createElement('button');
 
     var elements = ['platform', 'coin-box', 'mushroom-box', 'useless-box', 'goomba', 'flag', 'flag-pole'];
     var element;
@@ -111,7 +112,8 @@ function Editor() {
     elementWrapper.style.display = 'block';
 
     saveMap.className = 'save-map-btn';
-   
+    clearMap.className = 'clear-map-btn';
+
     for(i=0; i < elements.length; i++){ 
       element = document.createElement('div');
       element.className = elements[i];
@@ -124,9 +126,11 @@ function Editor() {
       elementWrapper.appendChild(element);
     }
 
+    elementWrapper.appendChild(clearMap);
     elementWrapper.appendChild(saveMap);
 
     saveMap.addEventListener('click', that.saveMap);
+    clearMap.addEventListener('click', that.resetEditor);
   }
 
   this.drawElement = function(element){

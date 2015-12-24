@@ -1,4 +1,5 @@
-function CreatedLevels(marioGame) {
+
+function CreatedLevels() {
   var wrapper = document.getElementsByClassName('saved-levels')[0];
   var that = this;
 
@@ -48,9 +49,12 @@ function CreatedLevels(marioGame) {
   }
 
   this.startLevel = function(i) {
+    var marioMakerInstance = MarioMaker.getInstance();
+
     levelName = localStorage.key(i);
     levelMap = JSON.parse(localStorage.getItem(levelName));
-    marioGame.init(levelMap);
+    
+    marioMakerInstance.startGame(levelMap);
   }
   
   this.showCreatedLevelsScreen = function() {

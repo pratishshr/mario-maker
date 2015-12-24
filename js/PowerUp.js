@@ -19,7 +19,7 @@ function PowerUp() {
   this.mushroom = function(x, y){
     that.x = x;
     that.y = y - that.height;
-    this.type = 11;
+    that.type = 11;
     that.sX = 0;
   }
 

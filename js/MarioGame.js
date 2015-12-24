@@ -23,6 +23,7 @@ function MarioGame() {
   var coinScore;
 
   var goombas = []; //all goombas;
+  var timeOutId;
 
   var tickCounter = 0; //for animating mario
   var maxTick = 25; //max number for ticks to show mario sprite
@@ -63,6 +64,40 @@ function MarioGame() {
 
     document.body.addEventListener('keyup', function(e) {
       keys[e.keyCode] = false;
+    });
+
+    document.body.addEventListener('mousedown', function(e) {
+      e.preventDefault();
+      if(e.pageX < 320){
+        keys[37] = true;
+      }
+      if(e.pageX > 320 && e.pageX < 640){
+        keys[39] = true;
+      }
+      if(e.pageX > 640 && e.pageX < 960){
+         keys[16] = true;
+      }
+      if(e.pageX > 960){
+        console.log(e.pageX);
+        keys[32] = true;
+      }
+    });
+
+    document.body.addEventListener('mouseup', function(e) {
+      e.preventDefault();
+      if(e.pageX < 320){
+        keys[37] = false;
+      }
+      if(e.pageX > 320 && e.pageX < 640){
+        keys[39] = false;
+      }
+      if(e.pageX > 640 && e.pageX < 960){
+        keys[16] = false;
+      }
+      if(e.pageX > 640){
+        console.log(e.pageX);
+        keys[32] = false;
+      }
     });
 
     that.startGame();
@@ -320,6 +355,11 @@ function MarioGame() {
       if(collWithMario == 't') {
         goombas.splice(i,1);
         mario.velY = -((mario.speed));
+
+        //sound when enemy dies
+        gameSound.killEnemy.pause();
+        gameSound.killEnemy.currentTime = 0;
+        gameSound.killEnemy.play();
       }else if(collWithMario == 'r' || collWithMario == 'l' || collWithMario == 'b'){
         goombas[i].velX *= -1;
         if(mario.type == 'big'){
@@ -327,9 +367,15 @@ function MarioGame() {
         }else if(mario.type == 'small'){
           mario.frame = 13;
           that.pause = true;
-          setTimeout(function() {
+
+          //sound when mario dies
+          gameSound.marioDie.pause();
+          gameSound.marioDie.currentTime = 0;
+          gameSound.marioDie.play();
+          
+          timeOutId = setTimeout(function() {
             that.resetGame();
-          }, 1000); 
+          }, 3000); 
         }
 
       }
@@ -359,9 +405,15 @@ function MarioGame() {
     //for ground
     if (mario.y >= height) {
       that.pause = true;
-      setTimeout(function() {
+
+      //sound when mario dies
+      gameSound.marioDie.pause();
+      gameSound.marioDie.currentTime = 0;
+      gameSound.marioDie.play();
+     
+     timeOutId = setTimeout(function() {
         that.resetGame();
-      }, 1000); 
+      }, 3000); 
     }
   }
 
@@ -488,6 +540,11 @@ function MarioGame() {
           tickCounter = 0;
           mario.frame = 12;
           that.pause = true;
+
+          //sound when stage clears
+          gameSound.stageClear.pause();
+          gameSound.stageClear.currentTime = 0;
+          gameSound.stageClear.play();
         }
     }
 
@@ -504,6 +561,10 @@ function MarioGame() {
     mario = null;
     element = null;
     gameSound = null;
+  }
+
+  this.clearTimeOut = function() {
+    clearTimeout(timeOutId);
   }
 
   this.removeGameScreen = function() {
