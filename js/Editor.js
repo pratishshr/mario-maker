@@ -12,9 +12,6 @@ function Editor() {
   var scrollMargin = 0;
   var rightScrollInterval;
 
-  var scrollLeft = 0;
-  var leftScrollInterval;
-
   var selectedElement = [];
 
   var that = this;
@@ -92,11 +89,14 @@ function Editor() {
 
         td.onmouseup = function(){
           mousedown = false;
-         }
+        }
 
         tr.appendChild(td);
       }
       grid.appendChild(tr);
+      grid.onmouseleave = function() {
+        mousedown = false;
+      }
     }
     gameWorld.appendChild(grid);
   }
@@ -105,7 +105,7 @@ function Editor() {
     elementWrapper = document.getElementsByClassName('element-wrapper')[0];
     var saveMap = document.createElement('button');
 
-    var elements = ['platform', 'coin-box', 'mushroom-box', 'useless-box', 'goomba'];
+    var elements = ['platform', 'coin-box', 'mushroom-box', 'useless-box', 'goomba', 'flag', 'flag-pole'];
     var element;
 
     elementWrapper.style.display = 'block';
@@ -183,6 +183,14 @@ function Editor() {
           case 'goomba':
             value = 20;
             break;
+          
+          case 'flag-pole':
+            value = 5;
+            break;
+
+          case 'flag':
+            value = 6
+            break;
             
           default:
             value = 0;
@@ -212,12 +220,30 @@ function Editor() {
     }
   }
 
+  this.resetEditor = function(){
+    var gridRows = grid.getElementsByTagName('tr');
+    for(var i = 0; i < gridRows.length; i++){
+      var gridColumns = gridRows[i].getElementsByTagName('td');
+
+      for(var j = 0; j < gridColumns.length; j++){
+          gridColumns[j].className = 'cell';
+      }
+    }
+
+    selectedElement = [];
+    scrollMargin = 0;
+    gameWorld.style.marginLeft = scrollMargin + 'px'; 
+
+  }
+
   this.removeEditorScreen = function() {
     if(viewPort){
+      that.resetEditor();
       viewPort.style.display = 'none';
       elementWrapper.style.display = 'none';
     }
   }
+  
 
   this.showEditorScreen = function() {
     if(viewPort){
