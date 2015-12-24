@@ -4,6 +4,7 @@
   width: 1280px;
   height: 480px;
   margin: 0 auto;
+  margin-top: 50px;
   border: 1px solid black;
   background: url('../images/start-screen.png');
   position: relative;
@@ -27,6 +28,7 @@
   background: url('../images/bg.png');
   display: none;
   margin: 0 auto;
+  
 }
 
 .cell {
@@ -61,19 +63,31 @@
 .coin-box{
   width: 31px;
   height: 31px;
-  background: url('../images/elements.png') 96px 0;
+  background: url('../images/elements.png') -96px 0;
 }
 
 .mushroom-box{
   width: 31px;
   height: 31px;
-  background: url('../images/elements.png') 64px 0;
+  background: url('../images/elements.png') -64px 0;
 }
 
 .useless-box{
   width: 31px;
   height: 31px;
-  background: url('../images/elements.png') 32px 0;
+  background: url('../images/elements.png') -32px 0;
+}
+
+.flag-pole{
+  width: 31px;
+  height: 31px;
+  background: url('../images/elements.png') -128px 0;
+}
+
+.flag{
+  width: 31px;
+  height: 31px;
+  background: url('../images/elements.png') -160px 0;
 }
 
 .goomba{
@@ -125,6 +139,17 @@
   float: left;
 }
 
+
+.element-wrapper .flag-pole{
+  margin: 10px;
+  float: left;
+}
+
+.element-wrapper .flag{
+  margin: 10px;
+  float: left;
+}
+
 .save-map-btn{
   float: right;
   width: 100px;
@@ -143,6 +168,7 @@
   overflow: hidden;
   display: none;
   background: url('../images/bg.png');
+  margin-top: 50px;
 }
 
 .start-btn{

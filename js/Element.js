@@ -20,17 +20,27 @@ function Element() {
 
   this.coinBox = function() {
     that.type = 2;
-    that.sX = 1 * this.width;
+    that.sX = 1 * that.width;
   }
 
   this.mushroomBox = function(){
     that.type = 3;
-    that.sX = 2 * this.width;
+    that.sX = 2 * that.width;
   }
 
   this.uselessBox = function(){
     that.type = 4;
-    that.sX = 3 * this.width;
+    that.sX = 3 * that.width;
+  }
+
+  this.flagPole = function() {
+    that.type = 5;
+    that.sX = 4 * that.width;
+  }
+
+  this.flag = function() {
+    that.type = 6;
+    that.sX = 5 * that.width;
   }
 
   this.draw = function(ctx) {
