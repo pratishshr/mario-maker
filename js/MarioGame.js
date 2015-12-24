@@ -66,37 +66,43 @@ function MarioGame() {
       keys[e.keyCode] = false;
     });
 
-    document.body.addEventListener('mousedown', function(e) {
+    document.body.addEventListener('touchstart', function(e) {
+      var touches = e.changedTouches;
       e.preventDefault();
-      if(e.pageX < 320){
-        keys[37] = true;
-      }
-      if(e.pageX > 320 && e.pageX < 640){
-        keys[39] = true;
-      }
-      if(e.pageX > 640 && e.pageX < 960){
-         keys[16] = true;
-      }
-      if(e.pageX > 960){
-        console.log(e.pageX);
-        keys[32] = true;
+
+      for (var i = 0; i < touches.length; i++) {
+        if(touches[i].pageX < 320){
+          keys[37] = true;
+        }
+        if(touches[i].pageX > 320 && touches[i].pageX < 640){
+          keys[39] = true;
+        }
+        if(touches[i].pageX > 640 && touches[i].pageX < 960){
+           keys[16] = true;
+        }
+        if(touches[i].pageX > 960){
+          keys[32] = true;
+        }
       }
     });
 
-    document.body.addEventListener('mouseup', function(e) {
+    document.body.addEventListener('touchend', function(e) {
+      var touches = e.changedTouches;
       e.preventDefault();
-      if(e.pageX < 320){
-        keys[37] = false;
-      }
-      if(e.pageX > 320 && e.pageX < 640){
-        keys[39] = false;
-      }
-      if(e.pageX > 640 && e.pageX < 960){
-        keys[16] = false;
-      }
-      if(e.pageX > 640){
-        console.log(e.pageX);
-        keys[32] = false;
+
+      for (var i = 0; i < touches.length; i++) {
+        if(touches[i].pageX < 320){
+          keys[37] = false;
+        }
+        if(touches[i].pageX > 320 && touches[i].pageX < 640){
+          keys[39] = false;
+        }
+        if(touches[i].pageX > 640 && touches[i].pageX < 960){
+           keys[16] = false;
+        }
+        if(touches[i].pageX > 960){
+          keys[32] = false;
+        }
       }
     });
 
