@@ -25,13 +25,27 @@
   width: 1280px;
   height: 480px;
   border: 1px solid black;
+  border-top: none;
   background: url('../images/bg.png');
   display: none;
   margin: 0 auto;
-  margin-top: 50px;
-
 }
 
+.score-wrapper{
+  padding-left: 40px;
+  width: 1240px;
+  margin: 0 auto;
+  height: 50px;
+  display: none;
+  border: 1px solid black;
+  border-bottom: none;
+  line-height: 50px;
+  font-size: 20px;
+  background: url('../images/coin.png') left center no-repeat;
+  background-color: #add1f3;
+  font-family: SuperMario256;
+  color: #ffffff;
+}
 .cell {
   width: 31px;
   height: 31px;

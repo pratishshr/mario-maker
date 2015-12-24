@@ -1,6 +1,6 @@
 function MarioGame() {
   var canvas = document.getElementsByClassName('game-screen')[0];
-  
+  var scoreWrapper = document.getElementsByClassName('score-wrapper')[0];
   var ctx = canvas.getContext('2d');
   var maxWidth = 1280 * 3; //width of the game world
   var height = 480;
@@ -20,7 +20,7 @@ function MarioGame() {
   var powerUps = []; //all powerUps
   var keys = []; //all key presses
   
-  var coinScore = 0;
+  var coinScore;
 
   var goombas = []; //all goombas;
 
@@ -32,7 +32,6 @@ function MarioGame() {
   var that = this;
 
   this.init = function(levelMap) {
-   
     map = JSON.parse(JSON.stringify(levelMap));
     originalMap = JSON.parse(JSON.stringify(levelMap));
 
@@ -54,6 +53,9 @@ function MarioGame() {
     goombas = [];
     powerUps = [];
 
+    scoreWrapper.style.display = 'block';
+    scoreWrapper.innerHTML = "Coins: 0"
+    coinScore = 0;
     //key binding
     document.body.addEventListener('keydown', function(e) {
       keys[e.keyCode] = true;
@@ -267,6 +269,7 @@ function MarioGame() {
 
         if (element.type == 2) { //Coin Box
           coinScore++;
+          scoreWrapper.innerHTML = 'Coins: ' + coinScore;
           map[row][column] = 4;
 
           //sound when coin block is hit
@@ -506,6 +509,7 @@ function MarioGame() {
   this.removeGameScreen = function() {
     if(canvas){
       canvas.style.display = 'none';
+      scoreWrapper.style.display = 'none';
     }
   }
 
