@@ -61,7 +61,7 @@
 
 .element-wrapper{
   width: 1280px;
-  height: 100px;
+  height: 130px;
   background: #d2d2d2;
   margin: 0 auto;
   border: 1px solid black;
@@ -86,6 +86,12 @@
   background: url('../images/elements.png') -64px 0;
 }
 
+.flower-box{
+  width: 31px;
+  height: 31px;
+  background: url('../images/elements.png') -320px 0;
+}
+
 .useless-box{
   width: 31px;
   height: 31px;
@@ -102,6 +108,30 @@
   width: 31px;
   height: 31px;
   background: url('../images/elements.png') -160px 0;
+}
+
+.pipe-left{
+  width: 31px;
+  height: 31px;
+  background: url('../images/elements.png') -192px 0;
+}
+
+.pipe-right{
+  width: 31px;
+  height: 31px;
+  background: url('../images/elements.png') -224px 0;
+}
+
+.pipe-top-left{
+  width: 31px;
+  height: 31px;
+  background: url('../images/elements.png') -256px 0;
+}
+
+.pipe-top-right{
+  width: 31px;
+  height: 31px;
+  background: url('../images/elements.png') -288px 0;
 }
 
 .goomba{
@@ -128,41 +158,11 @@
   position: absolute;
 }
 
-.element-wrapper .mushroom-box{
+.element-wrapper *{
   margin: 10px;
   float: left;
 }
 
-.element-wrapper .useless-box{
-  margin: 10px;
-  float: left;
-}
-
-.element-wrapper .coin-box{
-  margin: 10px;
-  float: left;
-}
-
-.element-wrapper .platform{
- margin: 10px;
- float: left;
-}
-
-.element-wrapper .goomba{
-  margin: 10px;
-  float: left;
-}
-
-
-.element-wrapper .flag-pole{
-  margin: 10px;
-  float: left;
-}
-
-.element-wrapper .flag{
-  margin: 10px;
-  float: left;
-}
 
 .save-map-btn{
   float: right;

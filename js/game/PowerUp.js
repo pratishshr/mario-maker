@@ -19,8 +19,15 @@ function PowerUp() {
   this.mushroom = function(x, y){
     that.x = x;
     that.y = y - that.height;
-    that.type = 11;
+    that.type = 30;
     that.sX = 0;
+  }
+
+  this.flower = function(x, y){
+    that.x = x;
+    that.y = y - that.height;
+    that.type = 31;
+    that.sX = 32;
   }
 
   this.draw = function(ctx){
@@ -28,7 +35,8 @@ function PowerUp() {
   }
 
   this.update = function(){
-    var gravity = 0.2;
+    if(that.type == 30){
+      var gravity = 0.2;
     
     if(that.grounded){
       that.velY = 0;
@@ -38,5 +46,6 @@ function PowerUp() {
     
     that.x += that.velX;
     that.y += that.velY;
+    }
   }
 }

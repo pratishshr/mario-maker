@@ -19,8 +19,11 @@ function MarioGame() {
 
   var powerUps = []; //all powerUps
   var keys = []; //all key presses
-  
-  var coinScore;
+  var bullets = []; //all bullets
+  var bulletFlag = false;
+  var score = 0;
+  var coinScore = 0;
+  var currentLevel; 
 
   var goombas = []; //all goombas;
   var timeOutId;
@@ -32,9 +35,13 @@ function MarioGame() {
 
   var that = this;
 
-  this.init = function(levelMap) {
-    map = JSON.parse(JSON.stringify(levelMap));
-    originalMap = JSON.parse(JSON.stringify(levelMap));
+  this.init = function(levelMap,level) {
+
+    currentLevel = level;
+    originalMap = levelMap;
+
+    map = JSON.parse(JSON.stringify(levelMap[currentLevel]));
+    
 
     translatedDist = 0;
     that.pause = false;
@@ -43,9 +50,11 @@ function MarioGame() {
     canvas.height = height;
     canvas.style.display = 'block';
     
-    mario = new Mario(canvas, ctx);
-    mario.init();
-
+    if(currentLevel == 1){
+      mario = new Mario(canvas, ctx);
+      mario.init();
+    }
+    mario.x = 10;
     element = new Element();
 
     gameSound = new GameSound();
@@ -55,8 +64,7 @@ function MarioGame() {
     powerUps = [];
 
     scoreWrapper.style.display = 'block';
-    scoreWrapper.innerHTML = "Coins: 0"
-    coinScore = 0;
+   
     //key binding
     document.body.addEventListener('keydown', function(e) {
       keys[e.keyCode] = true;
@@ -155,9 +163,15 @@ function MarioGame() {
       powerUps[i].update();
     }
 
+    for (var i = 0; i < bullets.length; i++) {
+      bullets[i].draw(ctx);
+      bullets[i].update();
+    }
+
     if(!that.pause){
       window.requestAnimationFrame(that.startGame);
     }
+
   }
 
   this.renderMap = function() {
@@ -172,7 +186,7 @@ function MarioGame() {
     }
 
     for (var row = 0; row < map.length; row++) {
-      for (var column = 0; column < map[0].length; column++) {
+      for (var column = 0; column < map[row].length; column++) {
         switch (map[row][column]) {
           case 1:
             element.x = column * tileSize;
@@ -185,6 +199,7 @@ function MarioGame() {
             
             that.checkPowerUpCollision(element);
             that.checkEnemyCollision(element);
+            that.checkBulletCollision(element);
             break;
 
           case 2:
@@ -198,6 +213,7 @@ function MarioGame() {
            
             that.checkPowerUpCollision(element);
             that.checkEnemyCollision(element);
+            that.checkBulletCollision(element);
             break;
 
           case 3:
@@ -211,6 +227,7 @@ function MarioGame() {
            
             that.checkPowerUpCollision(element);
             that.checkEnemyCollision(element);
+            that.checkBulletCollision(element);
             break;
 
           case 4:
@@ -224,6 +241,7 @@ function MarioGame() {
             
             that.checkPowerUpCollision(element);
             that.checkEnemyCollision(element);
+            that.checkBulletCollision(element);
             break;
 
           case 5:
@@ -244,6 +262,76 @@ function MarioGame() {
             element.draw(ctx); 
             break;
 
+          case 7:
+            element.x = column * tileSize;
+            element.y = row * tileSize;
+            element.pipeLeft();
+            element.draw(ctx); 
+
+            var collisionDirection = that.collisionCheck(mario, element);
+            that.onCollision(element, collisionDirection, row, column);
+            
+            that.checkPowerUpCollision(element);
+            that.checkEnemyCollision(element);
+            that.checkBulletCollision(element);
+            break;
+
+          case 8:
+            element.x = column * tileSize;
+            element.y = row * tileSize;
+            element.pipeRight();
+            element.draw(ctx); 
+
+            var collisionDirection = that.collisionCheck(mario, element);
+            that.onCollision(element, collisionDirection, row, column);
+            
+            that.checkPowerUpCollision(element);
+            that.checkEnemyCollision(element);
+            that.checkBulletCollision(element);
+            break;
+
+          case 9:
+            element.x = column * tileSize;
+            element.y = row * tileSize;
+            element.pipeTopLeft();
+            element.draw(ctx); 
+
+            var collisionDirection = that.collisionCheck(mario, element);
+            that.onCollision(element, collisionDirection, row, column);
+            
+            that.checkPowerUpCollision(element);
+            that.checkEnemyCollision(element);
+            that.checkBulletCollision(element);
+            break;
+
+          case 10:
+            element.x = column * tileSize;
+            element.y = row * tileSize;
+            element.pipeTopRight();
+            element.draw(ctx); 
+
+            var collisionDirection = that.collisionCheck(mario, element);
+            that.onCollision(element, collisionDirection, row, column);
+            
+            that.checkPowerUpCollision(element);
+            that.checkEnemyCollision(element);
+            that.checkBulletCollision(element);
+            break;  
+
+          case 11:
+            element.x = column * tileSize;
+            element.y = row * tileSize;
+            element.flowerBox();
+            element.draw(ctx);
+
+            var collisionDirection = that.collisionCheck(mario, element);
+            that.onCollision(element, collisionDirection, row, column);
+           
+            that.checkPowerUpCollision(element);
+            that.checkEnemyCollision(element);
+            that.checkBulletCollision(element);
+            break;
+          
           case 20: 
             var enemy = new Enemy(); 
             enemy.x = column * tileSize;
@@ -270,18 +358,18 @@ function MarioGame() {
     var collisionDirection = null;
 
     // if the x and y vector are less than the half width or half height, they we must be inside the object, causing a collision
-    if (Math.abs(vX) < hWidths && Math.abs(vY) < hHeights) {
+    if (Math.abs(vX) < hWidths  && Math.abs(vY) < hHeights) {
       // figures out on which side we are colliding (top, bottom, left, or right)
       var offsetX = hWidths - Math.abs(vX),
         offsetY = hHeights - Math.abs(vY);
 
       if (offsetX >= offsetY) {
-        if (vY > 0) {
+        if (vY > 0 && vY < 37) {
           collisionDirection = 't';
           if(objB.type != 5){ //if flagpole then pass through it
             objA.y += offsetY;
           }
-        } else {
+        } else if(vY < 0) {
           collisionDirection = 'b';
           if(objB.type != 5){ //if flagpole then pass through it
             objA.y -= offsetY;
@@ -333,10 +421,27 @@ function MarioGame() {
           gameSound.powerUpAppear.play();
         }
 
+        if (element.type == 11) { //Flower Box
+          var powerUp = new PowerUp();
+          powerUp.flower(element.x, element.y);
+          powerUps.push(powerUp);
+
+          map[row][column] = 4;
+
+          //sound when mushroom appears
+          gameSound.powerUpAppear.pause();
+          gameSound.powerUpAppear.currentTime = 0;
+          gameSound.powerUpAppear.play();
+        }
+
         if (element.type == 2) { //Coin Box
           coinScore++;
-          scoreWrapper.innerHTML = 'Coins: ' + coinScore;
+          score += 100;
+          
+          scoreWrapper.innerHTML = 'Coins: ' + coinScore + ' ' + 'Score: ' + score;
           map[row][column] = 4;
+
+          
 
           //sound when coin block is hit
           gameSound.coin.pause();
@@ -353,8 +458,15 @@ function MarioGame() {
 
       that.onPowerUpCollision(powerUps[i], collisionDirection);
       if (collWithMario) {
-        mario.type = 'big';
+        if(powerUps[i].type == 30){
+          mario.type = 'big';
+        }
+        if(powerUps[i].type == 31){
+          mario.type = 'fire';
+        }
         powerUps.splice(i, 1);
+
+        score += 1000;
 
         //sound when mushroom appears
         gameSound.powerUp.pause();
@@ -380,12 +492,16 @@ function MarioGame() {
   this.checkEnemyCollision = function(element) {
     for(var i = 0; i < goombas.length; i++){
       var collisionDirection = that.collisionCheck(goombas[i], element);
+      if(!mario.invulnerable){
       var collWithMario = that.collisionCheck(goombas[i], mario);
+      }
+    
 
       that.onEnemyCollision(goombas[i], collisionDirection);
       if(collWithMario == 't') {
         goombas.splice(i,1);
         mario.velY = -((mario.speed));
+        score += 1000;
 
         //sound when enemy dies
         gameSound.killEnemy.pause();
@@ -393,12 +509,25 @@ function MarioGame() {
         gameSound.killEnemy.play();
       }else if(collWithMario == 'r' || collWithMario == 'l' || collWithMario == 'b'){
         goombas[i].velX *= -1;
+        mario.invulnerable = true;
         if(mario.type == 'big'){
           mario.type = 'small';
+          collWithMario = undefined;
+
+
+          //sound when mario dies
+          gameSound.powerDown.pause();
+          gameSound.powerDown.currentTime = 0;
+          gameSound.powerDown.play();
+
+         setTimeout(function() {
+            mario.invulnerable = false;
+          }, 1000); 
+
         }else if(mario.type == 'small'){
           mario.frame = 13;
           that.pause = true;
-
+          collWithMario = undefined;
           //sound when mario dies
           gameSound.marioDie.pause();
           gameSound.marioDie.currentTime = 0;
@@ -407,9 +536,42 @@ function MarioGame() {
           timeOutId = setTimeout(function() {
             that.resetGame();
           }, 3000); 
+
+        }else if(mario.type == 'fire'){
+          mario.type = 'big';
+          collWithMario = undefined;
+        
+          //sound when mario dies
+          gameSound.powerDown.pause();
+          gameSound.powerDown.currentTime = 0;
+          gameSound.powerDown.play();
+
+          setTimeout(function() {
+            mario.invulnerable = false;
+          }, 1000); 
         }
 
+
       }
+
+      for(var j = 0; j < bullets.length; j++){
+        if(goombas[i]){
+          var collWithBullet = that.collisionCheck(goombas[i], bullets[j]);
+        }
+         if(collWithBullet){
+          bullets.splice(j,1);
+          goombas.splice(i,1);
+
+           //sound when enemy dies
+          gameSound.killEnemy.pause();
+          gameSound.killEnemy.currentTime = 0;
+          gameSound.killEnemy.play();
+        }
+       
+      }
+
+    
+     
     }
   }
 
@@ -422,7 +584,18 @@ function MarioGame() {
     } else if (collisionDirection == 't') {
 
     }
+  }
 
+  this.checkBulletCollision = function(element){
+    for (var i = 0; i < bullets.length; i++) {
+      var collisionDirection = that.collisionCheck(bullets[i], element);
+      if(collisionDirection == 'b'){
+        bullets[i].grounded = true;
+      }else if(collisionDirection == 't' || collisionDirection == 'l' || collisionDirection == 'r'){
+        bullets.splice(i,1);
+      }
+
+    }
   }
 
   this.wallCollision = function() {
@@ -445,6 +618,12 @@ function MarioGame() {
      timeOutId = setTimeout(function() {
         that.resetGame();
       }, 3000); 
+    }
+
+    if(bullets.length > 0){
+      if(bullets[0].y >= height) {
+        bullets.splice(0,1);
+      }
     }
   }
 
@@ -476,7 +655,7 @@ function MarioGame() {
       //right arrow
       that.checkMarioPos();
 
-      if (mario.velX < mario.speed && mario.x) {
+      if (mario.velX < mario.speed) {
         mario.velX++;
       }
 
@@ -528,6 +707,31 @@ function MarioGame() {
     }
 
 
+    if(keys[17] && mario.type == 'fire'){
+      //ctrl key
+      
+      if(!bulletFlag){
+        bulletFlag = true;
+        var bullet = new Bullet();
+        if (mario.frame == 9 || mario.frame == 8 || mario.frame == 2){
+          var direction = -1;
+        }else{
+          var direction = 1;
+        }
+        bullet.init(mario.x,mario.y, direction);
+        bullets.push(bullet);
+
+        //bullet sound
+        gameSound.bullet.pause();
+        gameSound.bullet.currentTime = 0;
+        gameSound.bullet.play();
+        setTimeout(function(){
+          bulletFlag = false;
+        }, 500)
+      }
+      
+    }
+
     //velocity 0 sprite position
     if (mario.velX > 0 && mario.velX < 1 && !mario.jumping) {
       mario.frame = 0;
@@ -567,7 +771,7 @@ function MarioGame() {
       mario.frame = 10;
       tickCounter += 1;
         if (tickCounter > maxTick) {
-           mario.x += 10;
+          mario.x += 10;
           tickCounter = 0;
           mario.frame = 12;
           that.pause = true;
@@ -576,6 +780,16 @@ function MarioGame() {
           gameSound.stageClear.pause();
           gameSound.stageClear.currentTime = 0;
           gameSound.stageClear.play();
+
+          timeOutId = setTimeout(function(){
+            currentLevel++;
+            if(originalMap[currentLevel]){
+              that.init(originalMap, currentLevel);
+            }else{
+              var marioMakerInstance = MarioMaker.getInstance(); 
+              marioMakerInstance.backToMenu();
+            }
+          }, 5000)
         }
     }
 
@@ -585,7 +799,7 @@ function MarioGame() {
     that.pause = false;
 
     that.clearInstances();
-    that.init(originalMap);   
+    that.init(originalMap,currentLevel);   
   }
 
   this.clearInstances = function() {
@@ -594,7 +808,7 @@ function MarioGame() {
     gameSound = null;
   }
 
-  this.clearTimeOut = function() {
+  this.clearReset = function() {
     clearTimeout(timeOutId);
   }
 

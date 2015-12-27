@@ -10,7 +10,7 @@ function Mario(canvas, ctx) {
   this.velY = 0;
   this.jumping = false;
   this.grounded = false;
-
+  this.invulnerable = false;
   this.sX = 0; // sprite x
   this.sY = 4; // sprite y
   this.frame = 0;
@@ -34,12 +34,26 @@ function Mario(canvas, ctx) {
       that.height = 60;
 
       //big mario sprite position
-      that.sY = 90;
+      if(that.invulnerable){
+        that.sY = 276;
+      }else{
+      
+        that.sY = 90;
+      }
     }else if(that.type == 'small'){
       that.height = 44;
 
+      if(that.invulnerable){
+        that.sY = 222;
+      }else{
       //small mario sprite
       that.sY = 4;
+      }
+    }else if(that.type == 'fire'){
+      that.height = 60;
+
+      //fire mario sprite
+      that.sY = 150;
     }
   }
 

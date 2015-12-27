@@ -51,10 +51,11 @@ function CreatedLevels() {
   this.startLevel = function(i) {
     var marioMakerInstance = MarioMaker.getInstance();
 
-    levelName = localStorage.key(i);
-    levelMap = JSON.parse(localStorage.getItem(levelName));
+    var levelName = localStorage.key(i);
+    var level = JSON.parse(localStorage.getItem(levelName));
     
-    marioMakerInstance.startGame(levelMap);
+    var map = { 1 : level}
+    marioMakerInstance.startGame(map);
   }
   
   this.showCreatedLevelsScreen = function() {

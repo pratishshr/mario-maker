@@ -5,6 +5,8 @@ function GameSound() {
   this.marioDie;
   this.killEnemy;
   this.stageClear;
+  this.bullet;
+  this.powerDown;
 
   var that = this;
 
@@ -13,8 +15,10 @@ function GameSound() {
     that.powerUpAppear = new Audio('sounds/power-up-appear.wav');
     that.powerUp = new Audio('sounds/power-up.wav');
     that.marioDie = new Audio('sounds/mario-die.wav');
-    this.killEnemy = new Audio('sounds/kill-enemy.wav');
-    this.stageClear = new Audio('sounds/stage-clear.wav');
+    that.killEnemy = new Audio('sounds/kill-enemy.wav');
+    that.stageClear = new Audio('sounds/stage-clear.wav');
+    that.bullet = new Audio('sounds/bullet.wav');
+    that.powerDown = new Audio('sounds/power-down.wav');
   }
 
 }

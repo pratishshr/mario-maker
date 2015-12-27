@@ -68,13 +68,9 @@ function Editor() {
 
         td.onmousedown = (function(i, j){
           return function(){
-            if(selected != true){
-              selectedElement.push(this);
-              this.className = 'active';
-              mousedown = true;
-            }else{
-              this.className = 'cell';
-            }
+            selectedElement.push(this);
+            this.className = 'active';
+            mousedown = true;
           }
         })(i, j);
 
@@ -106,7 +102,7 @@ function Editor() {
     var saveMap = document.createElement('button');
     var clearMap = document.createElement('button');
 
-    var elements = ['platform', 'coin-box', 'mushroom-box', 'useless-box', 'goomba', 'flag', 'flag-pole'];
+    var elements = ['cell','platform', 'coin-box', 'mushroom-box', 'flower-box', 'useless-box', 'flag', 'flag-pole', 'pipe-left', 'pipe-right', 'pipe-top-left', 'pipe-top-right', 'goomba',];
     var element;
 
     elementWrapper.style.display = 'block';
@@ -193,9 +189,30 @@ function Editor() {
             break;
 
           case 'flag':
-            value = 6
+            value = 6;
             break;
-            
+          
+          case 'pipe-left':
+            value = 7;
+            break;
+          
+          case 'pipe-right':
+            value = 8;
+            break;
+          
+          case 'pipe-top-left':
+            value = 9;
+            break;
+          
+          case 'pipe-top-right':
+            value = 10;
+            break;
+          
+
+          case 'flower-box':
+            value = 11;
+            break;
+
           default:
             value = 0;
             break;  

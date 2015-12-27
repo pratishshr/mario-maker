@@ -43,6 +43,34 @@ function Element() {
     that.sX = 5 * that.width;
   }
 
+  this.pipeLeft = function() {
+    that.type = 7;
+    that.sX = 6 * that.width;
+  }
+  
+  this.pipeRight = function() {
+    that.type = 8;
+    that.sX = 7 * that.width;
+  }
+
+  this.pipeTopLeft = function() {
+    that.type = 9;
+    that.sX = 8 * that.width;
+  }
+
+
+  this.pipeTopRight = function() {
+    that.type = 10;
+    that.sX = 9 * that.width;
+  }
+
+
+  this.flowerBox = function() {
+    that.type = 11;
+    that.sX = 10 * that.width;
+  }
+
+
   this.draw = function(ctx) {
     ctx.drawImage(element, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
   }
