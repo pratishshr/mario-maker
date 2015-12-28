@@ -22,8 +22,7 @@ function CreatedLevels() {
       for( var i = 1 ; i < localStorage.length; i++){
         var levelButton = document.createElement('div');
         levelButton.innerHTML = localStorage.key(i);
-        console.log(localStorage.key(i));
-
+        
         levelButton.className = 'level-btn';
         wrapper.appendChild(levelButton);
 
