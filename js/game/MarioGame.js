@@ -577,6 +577,7 @@ function MarioGame() {
           var collWithBullet = that.collisionCheck(goombas[i], bullets[j]);
         }
          if(collWithBullet){
+          bullets[j] = null;
           bullets.splice(j,1);
           goombas.splice(i,1);
 
@@ -839,6 +840,9 @@ function MarioGame() {
     mario = null;
     element = null;
     gameSound = null;
+    goombas = [];
+    bullets = [];
+    powerUps = [];
   }
 
   this.clearReset = function() {
