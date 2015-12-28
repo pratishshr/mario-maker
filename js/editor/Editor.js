@@ -4,7 +4,7 @@ function Editor() {
   var grid;
   var elementwrapper; 
 
-  var maxWidth = 1280 * 3;
+  var maxWidth;
   var height = 480;
  
   var tileSize = 32;
@@ -22,7 +22,7 @@ function Editor() {
     viewPort.style.display = 'block';
     
     that.createLevelEditor();
-    that.drawGrid();
+    that.drawGrid(3840);
     that.showElements();    
   }
 
@@ -32,7 +32,7 @@ function Editor() {
     var leftArrow = document.createElement('div');
     
 
-    gameWorld.style.width = maxWidth + 'px';
+    gameWorld.style.width = 6400 + 'px';
     gameWorld.style.height = height + 'px';
 
     rightArrow.className = 'right-arrow';
@@ -47,7 +47,8 @@ function Editor() {
 
   }
 
-  this.drawGrid = function() {
+  this.drawGrid = function(width) {
+    maxWidth = width;
     grid = document.createElement('table');
     
     var row = height/tileSize;
@@ -105,6 +106,16 @@ function Editor() {
     var elements = ['cell','platform', 'coin-box', 'mushroom-box', 'flower-box', 'useless-box', 'flag', 'flag-pole', 'pipe-left', 'pipe-right', 'pipe-top-left', 'pipe-top-right', 'goomba',];
     var element;
 
+    var lvlSize = document.createElement('div');
+    var gridSmallBtn = document.createElement('button');
+    var gridMediumBtn = document.createElement('button');
+    var gridLargeBtn = document.createElement('button');
+  
+    lvlSize.className = 'lvl-size';
+    gridSmallBtn.className = 'grid-small-btn';
+    gridMediumBtn.className = 'grid-medium-btn';
+    gridLargeBtn.className = 'grid-large-btn';
+
     elementWrapper.style.display = 'block';
 
     saveMap.className = 'save-map-btn';
@@ -122,11 +133,35 @@ function Editor() {
       elementWrapper.appendChild(element);
     }
 
+    elementWrapper.appendChild(lvlSize);
+    elementWrapper.appendChild(gridSmallBtn);
+    elementWrapper.appendChild(gridMediumBtn);
+    elementWrapper.appendChild(gridLargeBtn);
+
     elementWrapper.appendChild(clearMap);
     elementWrapper.appendChild(saveMap);
 
     saveMap.addEventListener('click', that.saveMap);
     clearMap.addEventListener('click', that.resetEditor);
+
+    gridSmallBtn.addEventListener('click', that.gridSmall);
+    gridMediumBtn.addEventListener('click', that.gridMedium);
+    gridLargeBtn.addEventListener('click', that.gridLarge);
+  }
+
+  that.gridSmall = function() {
+    gameWorld.removeChild(grid);
+    that.drawGrid(1280);
+  }
+
+  that.gridMedium = function() {
+    gameWorld.removeChild(grid);
+    that.drawGrid(3840);
+  }
+
+  that.gridLarge = function() {
+    gameWorld.removeChild(grid);
+    that.drawGrid(6400);
   }
 
   this.drawElement = function(element){

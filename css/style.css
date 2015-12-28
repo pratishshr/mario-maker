@@ -40,10 +40,33 @@
   border-bottom: none;
   line-height: 50px;
   font-size: 20px;
-  background: url('../images/coin.png') left center no-repeat;
+
   background-color: #add1f3;
   font-family: SuperMario256;
   color: #ffffff;
+}
+
+.life-count {
+  background: url('../images/mario-head.png') left center no-repeat;
+  width: 100px;
+  float: left;
+  padding-left: 40px;
+}
+
+.coin-score {
+  background: url('../images/coin.png') left center no-repeat;
+  width: 150px;
+  float: left;
+  padding-left: 40px;
+}
+
+.level-num {
+  width: 150px;
+  float: left;
+}
+
+.total-score {
+  float: left;
 }
 .cell {
   width: 31px;
@@ -163,6 +186,44 @@
   float: left;
 }
 
+.lvl-size{
+  clear: both;
+  float: left;
+  width: 115px;
+  height: 32px;
+  background: url('../images/lvl-size.png');
+  margin-right: 10px;
+}
+
+.grid-small-btn{
+  float: left;
+  width: 64px;
+  height: 32px;
+  background: url('../images/grid-small-btn.png');
+  border: none;
+  margin-right: 10px;
+}
+
+.grid-medium-btn:selected {
+  background: red;
+}
+.grid-medium-btn{
+  float: left;
+  width: 96px;
+  height: 32px;
+  background: url('../images/grid-medium-btn.png');
+  border: none;
+  margin-right: 10px;
+}
+
+.grid-large-btn{
+  float: left;
+  width: 128px;
+  height: 32px;
+  background: url('../images/grid-large-btn.png');
+  border: none;
+  margin-right: 10px;
+}
 
 .save-map-btn{
   float: right;
@@ -171,8 +232,11 @@
   background: url('../images/save-map-btn.png');
   border: none;
   border: 2px solid black;
-   margin-right: 10px;
+  margin-right: 10px;
+  margin-top: -35px;
+
 }
+
 
 .clear-map-btn{
   float: right;
@@ -182,6 +246,7 @@
   border: none;
   border: 2px solid black;
   margin-right: 10px;
+  margin-top: -35px;
 }
 
 .levels-wrapper{

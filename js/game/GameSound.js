@@ -7,6 +7,7 @@ function GameSound() {
   this.stageClear;
   this.bullet;
   this.powerDown;
+  this.jump;
 
   var that = this;
 
@@ -19,6 +20,7 @@ function GameSound() {
     that.stageClear = new Audio('sounds/stage-clear.wav');
     that.bullet = new Audio('sounds/bullet.wav');
     that.powerDown = new Audio('sounds/power-down.wav');
+    that.jump = new Audio('sounds/jump.wav');
   }
 
 }

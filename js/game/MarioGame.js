@@ -1,10 +1,9 @@
 function MarioGame() {
   var canvas = document.getElementsByClassName('game-screen')[0];
-  var scoreWrapper = document.getElementsByClassName('score-wrapper')[0];
   var ctx = canvas.getContext('2d');
-  var maxWidth = 1280 * 3; //width of the game world
+  var maxWidth = 0; //width of the game world
   var height = 480;
-  var viewPort = maxWidth / 3; //width of canvas, viewPort that can be seen
+  var viewPort = 1280; //width of canvas, viewPort that can be seen
   var tileSize = 32;
   var map;
   var originalMap;
@@ -16,13 +15,13 @@ function MarioGame() {
   var mario; // Mario instance
   var element; // Element instance
   var gameSound; //GameSound instance
+  var score; 
 
   var powerUps = []; //all powerUps
   var keys = []; //all key presses
   var bullets = []; //all bullets
   var bulletFlag = false;
-  var score = 0;
-  var coinScore = 0;
+ 
   var currentLevel; 
 
   var goombas = []; //all goombas;
@@ -36,13 +35,13 @@ function MarioGame() {
   var that = this;
 
   this.init = function(levelMap,level) {
-
+    maxWidth = 0;
     currentLevel = level;
+
     originalMap = levelMap;
 
     map = JSON.parse(JSON.stringify(levelMap[currentLevel]));
     
-
     translatedDist = 0;
     that.pause = false;
 
@@ -50,7 +49,15 @@ function MarioGame() {
     canvas.height = height;
     canvas.style.display = 'block';
     
-    if(currentLevel == 1){
+    if(!score){
+      score = new Score();
+      score.init();
+    }
+
+    score.displayScore();
+    score.updateLevelNum(currentLevel);
+
+    if(!mario){
       mario = new Mario(canvas, ctx);
       mario.init();
     }
@@ -63,8 +70,6 @@ function MarioGame() {
     goombas = [];
     powerUps = [];
 
-    scoreWrapper.style.display = 'block';
-   
     //key binding
     document.body.addEventListener('keydown', function(e) {
       keys[e.keyCode] = true;
@@ -186,7 +191,11 @@ function MarioGame() {
     }
 
     for (var row = 0; row < map.length; row++) {
+      
       for (var column = 0; column < map[row].length; column++) {
+        if(maxWidth < (map[row].length * 32)){
+          maxWidth = map[column].length * 32;
+        }
         switch (map[row][column]) {
           case 1:
             element.x = column * tileSize;
@@ -435,10 +444,11 @@ function MarioGame() {
         }
 
         if (element.type == 2) { //Coin Box
-          coinScore++;
-          score += 100;
+          score.coinScore++ ;
+          score.totalScore += 100;
           
-          scoreWrapper.innerHTML = 'Coins: ' + coinScore + ' ' + 'Score: ' + score;
+          score.updateCoinScore();
+          score.updateTotalScore();
           map[row][column] = 4;
 
           
@@ -466,7 +476,8 @@ function MarioGame() {
         }
         powerUps.splice(i, 1);
 
-        score += 1000;
+        score.totalScore += 1000;
+        score.updateTotalScore(); 
 
         //sound when mushroom appears
         gameSound.powerUp.pause();
@@ -501,7 +512,8 @@ function MarioGame() {
       if(collWithMario == 't') {
         goombas.splice(i,1);
         mario.velY = -((mario.speed));
-        score += 1000;
+        score.totalScore += 1000;
+        score.updateTotalScore();
 
         //sound when enemy dies
         gameSound.killEnemy.pause();
@@ -528,6 +540,9 @@ function MarioGame() {
           mario.frame = 13;
           that.pause = true;
           collWithMario = undefined;
+
+          score.lifeCount--;
+          score.updateLifeCount();
           //sound when mario dies
           gameSound.marioDie.pause();
           gameSound.marioDie.currentTime = 0;
@@ -535,6 +550,9 @@ function MarioGame() {
           
           timeOutId = setTimeout(function() {
             that.resetGame();
+            if(score.lifeCount == 0) {
+              that.gameOver();
+            }
           }, 3000); 
 
         }else if(mario.type == 'fire'){
@@ -611,12 +629,17 @@ function MarioGame() {
       that.pause = true;
 
       //sound when mario dies
-      gameSound.marioDie.pause();
-      gameSound.marioDie.currentTime = 0;
-      gameSound.marioDie.play();
+     gameSound.marioDie.pause();
+     gameSound.marioDie.currentTime = 0;
+     gameSound.marioDie.play();
      
+     score.lifeCount--;
+     score.updateLifeCount();
      timeOutId = setTimeout(function() {
         that.resetGame();
+        if(score.lifeCount == 0) {
+            that.gameOver();
+        }
       }, 3000); 
     }
 
@@ -648,6 +671,11 @@ function MarioGame() {
         } else if (mario.frame == 8 || mario.frame == 9) {
           mario.frame = 2; //left jump
         }
+
+        //sound when mario jumps
+         gameSound.jump.pause();
+         gameSound.jump.currentTime = 0;
+         gameSound.jump.play();
       }
     }
 
@@ -785,14 +813,19 @@ function MarioGame() {
             currentLevel++;
             if(originalMap[currentLevel]){
               that.init(originalMap, currentLevel);
+              score.updateLevelNum(currentLevel);
             }else{
-              var marioMakerInstance = MarioMaker.getInstance(); 
-              marioMakerInstance.backToMenu();
+              that.gameOver();
             }
           }, 5000)
         }
     }
 
+  }
+
+  this.gameOver = function() {
+     var marioMakerInstance = MarioMaker.getInstance(); 
+     marioMakerInstance.backToMenu();
   }
 
   this.resetGame = function() {
@@ -815,7 +848,9 @@ function MarioGame() {
   this.removeGameScreen = function() {
     if(canvas){
       canvas.style.display = 'none';
-      scoreWrapper.style.display = 'none';
+    }
+    if(score){
+     score.hideScore();
     }
   }
 
