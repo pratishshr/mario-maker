@@ -13,6 +13,7 @@ function Editor() {
   var rightScrollInterval;
 
   var selectedElement = [];
+  var map;
 
   var that = this;
 
@@ -171,23 +172,6 @@ function Editor() {
     selectedElement = [];
   }
 
-  this.saveMap = function() {
-    var levelCounter = localStorage.getItem('levelCounter') || 0;
-    that.generateMap();
-    levelCounter++;
-
-    if(levelCounter < 10){
-      levelName = 'savedLevel' + '0' + levelCounter;
-    }else{
-      levelName = 'savedLevel' + levelCounter;
-    }
-    
-    localStorage.setItem(levelName, JSON.stringify(map));
-    localStorage.setItem('levelCounter', levelCounter);
-    //alert('map saved');
-    console.log(localStorage.getItem(levelName));
-  }
-
   that.generateMap = function(){
     var newMap = [];
     var gridRows = grid.getElementsByTagName('tr');
@@ -256,10 +240,30 @@ function Editor() {
       }
       newMap.push(columns);
     }
-
     map = newMap;
-   
   }
+
+  this.saveMap = function() {
+    var storage = new Storage();
+    var levelCounter = storage.getItem('levelCounter') || 0;
+   
+    that.generateMap();
+   
+    levelCounter++;
+
+    if(levelCounter < 10){
+      levelName = 'savedLevel' + '0' + levelCounter;
+    }else{
+      levelName = 'savedLevel' + levelCounter;
+    }
+    
+    storage.setItem(levelName, map);
+    storage.setItem('levelCounter', levelCounter);
+
+    console.log(storage.getItem(levelName));
+    
+  }
+
 
   
   this.rightScroll = function() { 

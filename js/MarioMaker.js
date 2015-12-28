@@ -108,8 +108,6 @@ var MarioMaker = (function() {
       that.hideMainMenu();
       marioGame.removeGameScreen();
       editor.removeEditorScreen();
-
-
     }
 
     this.backToMenu = function() {

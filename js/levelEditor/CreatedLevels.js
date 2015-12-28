@@ -1,6 +1,7 @@
 
 function CreatedLevels() {
   var wrapper = document.getElementsByClassName('saved-levels')[0];
+  
   var that = this;
 
   this.init = function() {
