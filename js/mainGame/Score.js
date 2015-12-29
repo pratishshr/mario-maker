@@ -9,7 +9,7 @@ function Score() {
   this.totalScore;
   this.lifeCount;
 
-  var view = new View();
+  var view = View.getInstance();
   var that = this;
 
   this.init = function() {

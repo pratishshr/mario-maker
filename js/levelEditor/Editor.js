@@ -15,7 +15,7 @@ function Editor() {
   var selectedElement = [];
   var map;
 
-  var view = new View();
+  var view = View.getInstance();
 
   var that = this;
 

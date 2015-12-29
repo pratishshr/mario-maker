@@ -7,7 +7,7 @@ var MarioMaker = (function() {
     var editor = new Editor();
     var createdLevels = new CreatedLevels();
 
-    var view = new View();
+    var view = View.getInstance();
 
     var startScreen;
     var btnWrapper;
@@ -48,7 +48,13 @@ var MarioMaker = (function() {
       createdLevelsButton.onclick = that.startCreatedLevels;
       backToMenuBtn.onclick = that.backToMenu;
       startGameButton.onclick = function() {
-        var map = {
+        map = that.loadMainGameMap();
+        that.startGame(map);
+      }
+    }
+
+    this.loadMainGameMap = function() {
+      var map = {
           1: [
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -118,12 +124,19 @@ var MarioMaker = (function() {
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
           ]
         };
-
-        that.startGame(map);
-      }
-
+      return map;
     }
 
+    this.startGame = function(levelMap) {
+      view.style(backToMenuBtn, {display: 'block'});
+
+      marioGame.clearInstances();
+      marioGame.init(levelMap, 1);
+
+      that.hideMainMenu();
+      editor.removeEditorScreen();
+      createdLevels.removeCreatedLevelsScreen();
+    }
 
     this.startEditor = function() {
       view.style(backToMenuBtn, {display: 'block'});
@@ -138,19 +151,6 @@ var MarioMaker = (function() {
       marioGame.removeGameScreen();
       createdLevels.removeCreatedLevelsScreen();
 
-
-    }
-
-    this.startGame = function(levelMap) {
-      view.style(backToMenuBtn, {display: 'block'});
-
-      marioGame.clearInstances();
-      marioGame.init(levelMap, 1);
-
-      that.hideMainMenu();
-      editor.removeEditorScreen();
-      createdLevels.removeCreatedLevelsScreen();
-
     }
 
     this.startCreatedLevels = function() {
@@ -163,10 +163,10 @@ var MarioMaker = (function() {
     }
 
     this.backToMenu = function() {
+      marioGame.pauseGame();
       marioGame.clearReset();
       marioGame.removeGameScreen();
-      marioGame.pause = true;
-
+    
       editor.removeEditorScreen();
 
       createdLevels.removeCreatedLevelsScreen();
@@ -196,7 +196,6 @@ var MarioMaker = (function() {
 
 }());
 
-window.onload = function() {
-  var marioMakerInstance = MarioMaker.getInstance();
-  marioMakerInstance.init();
-}
+var marioMakerInstance = MarioMaker.getInstance();
+marioMakerInstance.init();
+

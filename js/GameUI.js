@@ -45,6 +45,7 @@ var GameUI = (function() {
       ctx.drawImage(image, sx, sy, width, height, x, y, width, height);
     }
 
+    
   }  
   
   return {

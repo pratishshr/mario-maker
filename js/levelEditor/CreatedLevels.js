@@ -1,13 +1,12 @@
-
 function CreatedLevels() {
-  var view = new View();
+  var view = View.getInstance();
   var storage;
   var wrapper = document.getElementsByClassName('saved-levels')[0];
   
   var that = this;
 
   this.init = function() {
-    var deleteAllBtn = view.create('button') //document.createElement('button');
+    var deleteAllBtn = view.create('button');
     
     view.addClass(deleteAllBtn, 'delete-all-btn');
     view.addClass(wrapper, 'levels-wrapper');
