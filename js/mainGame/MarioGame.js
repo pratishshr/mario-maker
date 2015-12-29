@@ -6,7 +6,7 @@ function MarioGame() {
   var viewPort = 1280; //width of canvas, viewPort that can be seen
   var tileSize = 32;
   var map;
-  var originalMap;
+  var originalMaps;
 
   var translatedDist = 0; //distance translated(side scrolled) as mario moves to the right
   var centerPos; //center position of the viewPort, viewable screen
@@ -34,13 +34,13 @@ function MarioGame() {
 
   var that = this;
 
-  this.init = function(levelMap,level) {
+  this.init = function(levelMaps,level) {
     maxWidth = 0;
     currentLevel = level;
 
-    originalMap = levelMap;
+    originalMaps = levelMaps;
 
-    map = JSON.parse(JSON.stringify(levelMap[currentLevel]));
+    map = JSON.parse(JSON.stringify(levelMaps[currentLevel]));
     
     translatedDist = 0;
     that.pause = false;
@@ -149,6 +149,10 @@ function MarioGame() {
 
   //Main Game Loop
   this.startGame = function() {
+    if(!that.pause){
+      window.requestAnimationFrame(that.startGame);
+    }
+
     ctx.clearRect(0, 0, maxWidth, height);
     that.renderMap();
     mario.draw();
@@ -171,10 +175,6 @@ function MarioGame() {
     for (var i = 0; i < bullets.length; i++) {
       bullets[i].draw(ctx);
       bullets[i].update();
-    }
-
-    if(!that.pause){
-      window.requestAnimationFrame(that.startGame);
     }
 
   }
@@ -467,6 +467,7 @@ function MarioGame() {
       var collWithMario = that.collisionCheck(powerUps[i], mario);
 
       that.onPowerUpCollision(powerUps[i], collisionDirection);
+      
       if (collWithMario) {
         if(powerUps[i].type == 30){
           mario.type = 'big';
@@ -812,8 +813,8 @@ function MarioGame() {
 
           timeOutId = setTimeout(function(){
             currentLevel++;
-            if(originalMap[currentLevel]){
-              that.init(originalMap, currentLevel);
+            if(originalMaps[currentLevel]){
+              that.init(originalMaps, currentLevel);
               score.updateLevelNum(currentLevel);
             }else{
               that.gameOver();
@@ -833,7 +834,7 @@ function MarioGame() {
     that.pause = false;
 
     that.clearInstances();
-    that.init(originalMap,currentLevel);   
+    that.init(originalMaps,currentLevel);   
   }
 
   this.clearInstances = function() {

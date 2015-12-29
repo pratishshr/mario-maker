@@ -15,12 +15,14 @@ function Editor() {
   var selectedElement = [];
   var map;
 
+  var view = new View();
+
   var that = this;
 
   this.init = function() {
     viewPort = document.getElementsByClassName('editor-screen')[0];
     
-    viewPort.style.display = 'block';
+    view.style(viewPort, {display: 'block'});
     
     that.createLevelEditor();
     that.drawGrid(3840);
@@ -28,20 +30,20 @@ function Editor() {
   }
 
   this.createLevelEditor = function(){
-    gameWorld = document.createElement('div');
-    var rightArrow = document.createElement('div');
-    var leftArrow = document.createElement('div');
+    var rightArrow = view.create('div'); 
+    var leftArrow = view.create('div');
+    gameWorld = view.create('div');
     
-
-    gameWorld.style.width = 6400 + 'px';
-    gameWorld.style.height = height + 'px';
-
-    rightArrow.className = 'right-arrow';
-    leftArrow.className = 'left-arrow';
     
-    viewPort.appendChild(rightArrow);
-    viewPort.appendChild(leftArrow);
-    viewPort.appendChild(gameWorld);
+    view.style(gameWorld, {width: 6400 + 'px'});
+    view.style(gameWorld, {height: height + 'px'});
+ 
+    view.addClass(rightArrow, 'right-arrow');
+    view.addClass(leftArrow, 'left-arrow');
+ 
+    view.append(viewPort, rightArrow);
+    view.append(viewPort, leftArrow);
+    view.append(viewPort, gameWorld);
    
     rightArrow.addEventListener('click', that.rightScroll);
     leftArrow.addEventListener('click', that.leftScroll);
@@ -50,7 +52,7 @@ function Editor() {
 
   this.drawGrid = function(width) {
     maxWidth = width;
-    grid = document.createElement('table');
+    grid = view.create('table');
     
     var row = height/tileSize;
     var column = maxWidth/tileSize;
@@ -59,10 +61,10 @@ function Editor() {
     var selected = false;
 
     for(i = 1; i <= row; i++){
-      var tr = document.createElement('tr');
+      var tr = view.create('tr');
       for(j = 1; j <= column; j++){
-        var td = document.createElement('td');
-        td.className = 'cell';
+        var td = view.create('td');
+        view.addClass(td, 'cell');
 
         td.addEventListener("mousedown", function(e) { //to stop the mouse pointer to change
           e.preventDefault(); 
@@ -71,7 +73,7 @@ function Editor() {
         td.onmousedown = (function(i, j){
           return function(){
             selectedElement.push(this);
-            this.className = 'active';
+            view.addClass(this, 'active');
             mousedown = true;
           }
         })(i, j);
@@ -80,7 +82,7 @@ function Editor() {
             return function(){
               if(mousedown){
                 selectedElement.push(this);
-                this.className = 'active';
+                view.addClass(this, 'active');
               }  
             }
         })(i, j);
@@ -88,87 +90,87 @@ function Editor() {
         td.onmouseup = function(){
           mousedown = false;
         }
-
-        tr.appendChild(td);
+        view.append(tr, td);
       }
-      grid.appendChild(tr);
+      view.append(grid, tr);
+
       grid.onmouseleave = function() {
         mousedown = false;
       }
     }
-    gameWorld.appendChild(grid);
+    view.append(gameWorld, grid);
   }
 
   this.showElements = function(){
     elementWrapper = document.getElementsByClassName('element-wrapper')[0];
-    var saveMap = document.createElement('button');
-    var clearMap = document.createElement('button');
+    var saveMap = view.create('button');
+    var clearMap = view.create('button');
 
     var elements = ['cell','platform', 'coin-box', 'mushroom-box', 'flower-box', 'useless-box', 'flag', 'flag-pole', 'pipe-left', 'pipe-right', 'pipe-top-left', 'pipe-top-right', 'goomba',];
     var element;
 
-    var lvlSize = document.createElement('div');
-    var gridSmallBtn = document.createElement('button');
-    var gridMediumBtn = document.createElement('button');
-    var gridLargeBtn = document.createElement('button');
-  
-    lvlSize.className = 'lvl-size';
-    gridSmallBtn.className = 'grid-small-btn';
-    gridMediumBtn.className = 'grid-medium-btn';
-    gridLargeBtn.className = 'grid-large-btn';
+    var lvlSize = view.create('div');
+    var gridSmallBtn = view.create('button');
+    var gridMediumBtn = view.create('button');
+    var gridLargeBtn = view.create('button');
+    
+    view.addClass(lvlSize, 'lvl-size');
+    view.addClass(gridSmallBtn, 'grid-small-btn');
+    view.addClass(gridMediumBtn, 'grid-medium-btn');
+    view.addClass(gridLargeBtn, 'grid-large-btn');
 
-    elementWrapper.style.display = 'block';
+    view.style(elementWrapper, {display: 'block'});
 
-    saveMap.className = 'save-map-btn';
-    clearMap.className = 'clear-map-btn';
+    view.addClass(saveMap, 'save-map-btn');
+    view.addClass(clearMap, 'clear-map-btn');
 
     for(i=0; i < elements.length; i++){ 
-      element = document.createElement('div');
-      element.className = elements[i];
+      element = view.create('div');
+      view.addClass(element, elements[i]);
+
       element.onclick = (function(i){
         return function(){
           that.drawElement(elements[i]);
         } 
       })(i);
-   
-      elementWrapper.appendChild(element);
+      
+      view.append(elementWrapper, element);
     }
 
-    elementWrapper.appendChild(lvlSize);
-    elementWrapper.appendChild(gridSmallBtn);
-    elementWrapper.appendChild(gridMediumBtn);
-    elementWrapper.appendChild(gridLargeBtn);
-
-    elementWrapper.appendChild(clearMap);
-    elementWrapper.appendChild(saveMap);
+    view.append(elementWrapper, lvlSize);
+    view.append(elementWrapper, gridSmallBtn);
+    view.append(elementWrapper, gridMediumBtn);
+    view.append(elementWrapper, gridLargeBtn);
+    view.append(elementWrapper, clearMap);
+    view.append(elementWrapper, saveMap);
 
     saveMap.addEventListener('click', that.saveMap);
     clearMap.addEventListener('click', that.resetEditor);
-
     gridSmallBtn.addEventListener('click', that.gridSmall);
     gridMediumBtn.addEventListener('click', that.gridMedium);
     gridLargeBtn.addEventListener('click', that.gridLarge);
   }
 
   that.gridSmall = function() {
-    gameWorld.removeChild(grid);
+    view.remove(gameWorld, grid);
     that.drawGrid(1280);
   }
 
   that.gridMedium = function() {
-    gameWorld.removeChild(grid);
+    view.remove(gameWorld, grid);
     that.drawGrid(3840);
   }
 
   that.gridLarge = function() {
-    gameWorld.removeChild(grid);
+    view.remove(gameWorld, grid);
     that.drawGrid(6400);
   }
 
   this.drawElement = function(element){
     for(var i = 0; i < selectedElement.length; i++){
-      selectedElement[i].className = element;
+      view.addClass(selectedElement[i], element)
     }
+
     selectedElement = [];
   }
 
@@ -269,14 +271,14 @@ function Editor() {
   this.rightScroll = function() { 
     if(scrollMargin > -(maxWidth - 1280)) {
       scrollMargin += -160;
-      gameWorld.style.marginLeft = scrollMargin + 'px'; 
+      view.style(gameWorld, {'margin-left': scrollMargin + 'px'});
     }  
   }
 
   this.leftScroll = function() {
     if(scrollMargin != 0){
       scrollMargin += 160;
-      gameWorld.style.marginLeft = scrollMargin + 'px'; 
+      view.style(gameWorld, {'margin-left': scrollMargin + 'px'});
     }
   }
 
@@ -286,29 +288,28 @@ function Editor() {
       var gridColumns = gridRows[i].getElementsByTagName('td');
 
       for(var j = 0; j < gridColumns.length; j++){
-          gridColumns[j].className = 'cell';
+        view.addClass(gridColumns[j], 'cell');
       }
     }
 
     selectedElement = [];
     scrollMargin = 0;
-    gameWorld.style.marginLeft = scrollMargin + 'px'; 
-
+    view.style(gameWorld, {'margin-left': scrollMargin + 'px'});
   }
 
   this.removeEditorScreen = function() {
     if(viewPort){
       that.resetEditor();
-      viewPort.style.display = 'none';
-      elementWrapper.style.display = 'none';
+      view.style(viewPort, {display: 'none'});
+      view.style(elementWrapper, {display: 'none'});
     }
   }
   
 
   this.showEditorScreen = function() {
     if(viewPort){
-      viewPort.style.display = 'block';
-      elementWrapper.style.display = 'block';
+      view.style(viewPort, {display: 'block'});
+      view.style(elementWrapper, {display: 'block'});
     }
   } 
 } 

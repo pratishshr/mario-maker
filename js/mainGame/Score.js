@@ -1,32 +1,38 @@
 function Score() {
   var scoreWrapper = document.getElementsByClassName('score-wrapper')[0];
-  var coinScoreWrapper = document.createElement('div');
-  var totalScoreWrapper = document.createElement('div');
-  var lifeCountWrapper = document.createElement('div'); 
-  var levelWrapper = document.createElement('div');
+  var coinScoreWrapper;
+  var totalScoreWrapper;
+  var lifeCountWrapper;
+  var levelWrapper;
 
   this.coinScore;
   this.totalScore;
   this.lifeCount;
 
+  var view = new View();
   var that = this;
 
   this.init = function() {
-    coinScoreWrapper.className = 'coin-score';
-    totalScoreWrapper.className = 'total-score';
-    lifeCountWrapper.className = 'life-count';
-    levelWrapper.className = 'level-num';
-
-    scoreWrapper.appendChild(levelWrapper);
-    scoreWrapper.appendChild(lifeCountWrapper);
-    scoreWrapper.appendChild(coinScoreWrapper);
-    scoreWrapper.appendChild(totalScoreWrapper);
-   
-
     that.coinScore = 0;
     that.totalScore = 0;
     that.lifeCount = 5;
 
+    coinScoreWrapper = view.create('div');
+    totalScoreWrapper = view.create('div');
+    lifeCountWrapper = view.create('div');
+    levelWrapper = view.create('div');
+
+    view.addClass(coinScoreWrapper, 'coin-score');
+    view.addClass(totalScoreWrapper, 'total-score');
+    view.addClass(lifeCountWrapper, 'life-count');
+    view.addClass(levelWrapper, 'level-num');
+
+    view.append(scoreWrapper, levelWrapper);
+    view.append(scoreWrapper, lifeCountWrapper);
+    view.append(scoreWrapper, coinScoreWrapper);
+    view.append(scoreWrapper, totalScoreWrapper);
+
+  
     that.updateCoinScore();
     that.updateTotalScore();
     that.updateLifeCount();
@@ -39,31 +45,34 @@ function Score() {
       that.lifeCount++;
       that.updateLifeCount();
     }
-    coinScoreWrapper.innerHTML = 'Coins: ' + that.coinScore;
+
+    view.setHTML(coinScoreWrapper, 'Coins: ' + that.coinScore);
   }
 
   this.updateTotalScore = function() {
-    totalScoreWrapper.innerHTML = 'Score: ' + that.totalScore; 
+    view.setHTML(totalScoreWrapper, 'Score: ' + that.totalScore);
   }
 
   this.updateLifeCount = function() {
-    lifeCountWrapper.innerHTML = 'x ' + that.lifeCount;
+    view.setHTML(lifeCountWrapper, 'x ' + that.lifeCount);
   }
 
   this.updateLevelNum = function(level) {
-    levelWrapper.innerHTML = 'Level: ' + level; 
+    view.setHTML(levelWrapper, 'Level: ' + level);
   }
 
 
   this.displayScore = function() {
-    scoreWrapper.style.display = 'block';
+    view.style(scoreWrapper, {display: 'block'});
   }
 
   this.hideScore = function() {
-    scoreWrapper.style.display = 'none';
+    view.style(scoreWrapper, {display: 'none'});
+ 
     that.coinScore = 0;
     that.lifeCount = 5  ;
     that.totalScore = 0;
+    
     that.updateCoinScore();
     that.updateTotalScore();
     that.updateLifeCount();

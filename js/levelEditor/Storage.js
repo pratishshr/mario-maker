@@ -1,3 +1,5 @@
+//for storing and retrieving from localStorage
+
 function Storage() {
 
   this.getItem = function(itemName) {
