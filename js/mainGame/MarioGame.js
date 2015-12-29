@@ -409,7 +409,7 @@ function MarioGame() {
       mario.jumping = false;
 
       if(element.type == 5) { //flag pole
-        that.gameFinish();
+        that.gameFinish(collisionDirection);
       }
 
     } else if (collisionDirection == 'b') {
@@ -787,10 +787,16 @@ function MarioGame() {
     }
   }
 
-  this.gameFinish = function() {
-    mario.x += 10;
-    mario.velY = 2;
-    mario.frame = 11;
+  this.gameFinish = function(collisionDirection) {
+    if(collisionDirection == 'r'){
+      mario.x += 10;
+      mario.velY = 2;
+      mario.frame = 11;
+    }else if(collisionDirection == 'l'){
+      mario.x -= 32;
+      mario.velY = 2;
+      mario.frame = 10;
+    }
 
     if(marioInGround){
       mario.x += 20;

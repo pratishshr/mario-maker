@@ -39,14 +39,13 @@ var View = (function() {
   }
 
   return {
-  getInstance: function() {
-    if (instance == null) {
-      instance = new View();
-    }
+    getInstance: function() {
+      if (instance == null) {
+        instance = new View();
+      }
 
-    return instance;
+      return instance;
     }
   }
-  
-}());
 
+}());

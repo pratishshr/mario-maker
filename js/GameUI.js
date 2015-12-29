@@ -45,9 +45,9 @@ var GameUI = (function() {
       ctx.drawImage(image, sx, sy, width, height, x, y, width, height);
     }
 
-    
-  }  
-  
+
+  }
+
   return {
     getInstance: function() {
       if (instance == null) {
@@ -57,6 +57,5 @@ var GameUI = (function() {
       return instance;
     }
   }
-  
-}());
 
+}());
