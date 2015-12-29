@@ -25,6 +25,10 @@ var View = (function() {
       parentElement.removeChild(childElement);
     }
 
+    this.removeFromBody = function(childElement) {
+      document.body.removeChild(childElement);
+    }
+
     //style = {display: 'block', position: 'absolute', ...}
     this.style = function(element, styles) {
       for (var property in styles) {

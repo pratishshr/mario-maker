@@ -348,3 +348,10 @@
   background: #5fb952;
   border: 2px solid black;
 }
+
+.loading-percentage {
+  font-size: 60px;
+  font-family: SuperMario256;
+  text-align: center;
+  padding: 100px;
+}
