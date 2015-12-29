@@ -1,6 +1,9 @@
 function MarioGame() {
   var canvas = document.getElementsByClassName('game-screen')[0];
   var ctx = canvas.getContext('2d');
+
+  var canvasView = new CanvasView();
+
   var maxWidth = 0; //width of the game world
   var height = 480;
   var viewPort = 1280; //width of canvas, viewPort that can be seen
