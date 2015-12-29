@@ -1,4 +1,6 @@
 function Element() {
+  var gameUI = GameUI.getInstance();
+  
   this.type;
 
   this.sX;
@@ -71,7 +73,7 @@ function Element() {
   }
 
 
-  this.draw = function(ctx) {
-    ctx.drawImage(element, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
+  this.draw = function() {
+    gameUI.draw(element, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
   }
 }

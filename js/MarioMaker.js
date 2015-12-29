@@ -196,5 +196,7 @@ var MarioMaker = (function() {
 
 }());
 
-var marioMakerInstance = MarioMaker.getInstance();
-marioMakerInstance.init();
+window.onload = function() {
+  var marioMakerInstance = MarioMaker.getInstance();
+  marioMakerInstance.init();
+}

@@ -1,4 +1,6 @@
 function Bullet() {
+  var gameUI = GameUI.getInstance();
+  
   this.x;
   this.y;
   this.velX;
@@ -16,16 +18,16 @@ function Bullet() {
   var that = this;
 
   this.init = function(x, y, direction){
-    that.velX = 4 * direction;
+    that.velX = 8 * direction;
     that.velY = 0;
     that.x = x + that.width;
-    that.y = y + 20;
+    that.y = y + 30;
     that.type = 30;
     that.sX = 0;
   }
 
-  this.draw = function(ctx){
-   ctx.drawImage(element, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
+  this.draw = function(){
+   gameUI.draw(element, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
   }
 
   this.update = function(){

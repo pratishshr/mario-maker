@@ -1,4 +1,6 @@
 function PowerUp() {
+  var gameUI = GameUI.getInstance();
+  
   this.type;
   this.x;
   this.y;
@@ -31,7 +33,7 @@ function PowerUp() {
   }
 
   this.draw = function(ctx){
-    ctx.drawImage(element, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
+    gameUI.draw(element, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
   }
 
   this.update = function(){

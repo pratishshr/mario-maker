@@ -1,8 +1,6 @@
 function MarioGame() {
   var canvas = document.getElementsByClassName('game-screen')[0];
-  var ctx = canvas.getContext('2d');
-
-  var canvasView = new CanvasView();
+  var gameUI = GameUI.getInstance();
 
   var maxWidth = 0; //width of the game world
   var height = 480;
@@ -48,10 +46,10 @@ function MarioGame() {
     translatedDist = 0;
     that.pause = false;
 
-    canvas.width = viewPort;
-    canvas.height = height;
-    canvas.style.display = 'block';
-    
+    gameUI.setWidth(viewPort);
+    gameUI.setHeight(height);
+    gameUI.show();
+
     if(!score){
       score = new Score();
       score.init();
@@ -61,7 +59,7 @@ function MarioGame() {
     score.updateLevelNum(currentLevel);
 
     if(!mario){
-      mario = new Mario(canvas, ctx);
+      mario = new Mario();
       mario.init();
     }
     mario.x = 10;
@@ -156,7 +154,7 @@ function MarioGame() {
       window.requestAnimationFrame(that.startGame);
     }
 
-    ctx.clearRect(0, 0, maxWidth, height);
+    gameUI.clear(0, 0, maxWidth, height);
     that.renderMap();
     mario.draw();
     
@@ -166,17 +164,17 @@ function MarioGame() {
     that.wallCollision();
 
     for(var i = 0; i < goombas.length; i++){
-      goombas[i].draw(ctx);
+      goombas[i].draw();
       goombas[i].update();
     }
 
     for (var i = 0; i < powerUps.length; i++) {
-      powerUps[i].draw(ctx);
+      powerUps[i].draw();
       powerUps[i].update();
     }
 
     for (var i = 0; i < bullets.length; i++) {
-      bullets[i].draw(ctx);
+      bullets[i].draw();
       bullets[i].update();
     }
 
@@ -204,7 +202,7 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.platform();
-            element.draw(ctx);
+            element.draw();
 
             var collisionDirection = that.collisionCheck(mario, element);
             that.onCollision(element, collisionDirection, row, column);
@@ -218,7 +216,7 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.coinBox();
-            element.draw(ctx);
+            element.draw();
 
             var collisionDirection = that.collisionCheck(mario, element);
             that.onCollision(element, collisionDirection, row, column);
@@ -232,7 +230,7 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.mushroomBox();
-            element.draw(ctx);
+            element.draw();
 
             var collisionDirection = that.collisionCheck(mario, element);
             that.onCollision(element, collisionDirection, row, column);
@@ -246,7 +244,7 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.uselessBox();
-            element.draw(ctx);
+            element.draw();
 
             var collisionDirection = that.collisionCheck(mario, element);
             that.onCollision(element, collisionDirection, row, column);
@@ -260,7 +258,7 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.flagPole();
-            element.draw(ctx);
+            element.draw();
 
             var collisionDirection = that.collisionCheck(mario, element);
             that.onCollision(element, collisionDirection, row, column);
@@ -271,14 +269,14 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.flag();
-            element.draw(ctx); 
+            element.draw(); 
             break;
 
           case 7:
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.pipeLeft();
-            element.draw(ctx); 
+            element.draw(); 
 
             var collisionDirection = that.collisionCheck(mario, element);
             that.onCollision(element, collisionDirection, row, column);
@@ -292,7 +290,7 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.pipeRight();
-            element.draw(ctx); 
+            element.draw(); 
 
             var collisionDirection = that.collisionCheck(mario, element);
             that.onCollision(element, collisionDirection, row, column);
@@ -306,7 +304,7 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.pipeTopLeft();
-            element.draw(ctx); 
+            element.draw(); 
 
             var collisionDirection = that.collisionCheck(mario, element);
             that.onCollision(element, collisionDirection, row, column);
@@ -320,7 +318,7 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.pipeTopRight();
-            element.draw(ctx); 
+            element.draw(); 
 
             var collisionDirection = that.collisionCheck(mario, element);
             that.onCollision(element, collisionDirection, row, column);
@@ -334,7 +332,7 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.flowerBox();
-            element.draw(ctx);
+            element.draw();
 
             var collisionDirection = that.collisionCheck(mario, element);
             that.onCollision(element, collisionDirection, row, column);
@@ -349,7 +347,7 @@ function MarioGame() {
             enemy.x = column * tileSize;
             enemy.y = row * tileSize;
             enemy.goomba();
-            enemy.draw(ctx);
+            enemy.draw();
 
             goombas.push(enemy);
             map[row][column] = 0;
@@ -612,6 +610,7 @@ function MarioGame() {
   this.checkBulletCollision = function(element){
     for (var i = 0; i < bullets.length; i++) {
       var collisionDirection = that.collisionCheck(bullets[i], element);
+      
       if(collisionDirection == 'b'){
         bullets[i].grounded = true;
       }else if(collisionDirection == 't' || collisionDirection == 'l' || collisionDirection == 'r'){
@@ -789,7 +788,7 @@ function MarioGame() {
    
     //side scrolling as mario reaches center of the viewPort
     if ((mario.x > centerPos) && ((centerPos + viewPort / 2) < maxWidth)) {
-      ctx.translate(-mario.speed, 0);
+      gameUI.scrollWindow(-mario.speed, 0);
       translatedDist += mario.speed;
     }
   }
@@ -854,17 +853,14 @@ function MarioGame() {
   }
 
   this.removeGameScreen = function() {
-    if(canvas){
-      canvas.style.display = 'none';
-    }
+    gameUI.hide();
+   
     if(score){
      score.hideScore();
     }
   }
 
   this.showGameScreen = function() {
-    if(canvas) {
-      canvas.style.display = 'block';
-    }
+    gameUI.show();
   }
 }
