@@ -36,29 +36,29 @@ function Mario() {
       that.height = 60;
 
       //big mario sprite position
-      if(that.invulnerable){
+      if (that.invulnerable) {
         that.sY = 276; //if invulnerable, show transparent mario
-      }else{
+      } else {
         that.sY = 90;
       }
-    }else if(that.type == 'small'){
+    } else if (that.type == 'small') {
       that.height = 44;
 
       //small mario sprite
-      if(that.invulnerable){
-        that.sY = 222;  //if invulnerable, show transparent mario
-      }else{
+      if (that.invulnerable) {
+        that.sY = 222; //if invulnerable, show transparent mario
+      } else {
         that.sY = 4;
       }
-    }else if(that.type == 'fire'){
+    } else if (that.type == 'fire') {
       that.height = 60;
 
       //fire mario sprite
       that.sY = 150;
-    }
+    } 
   }
 
-  this.resetPos = function(){
+  this.resetPos = function() {
     that.x = canvas.width / 10;
     that.y = canvas.height - 40;
     that.frame = 0;
