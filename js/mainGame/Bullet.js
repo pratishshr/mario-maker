@@ -42,4 +42,5 @@ function Bullet() {
     that.x += that.velX;
     that.y += that.velY;
   }
+  
 }

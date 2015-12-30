@@ -1,3 +1,5 @@
+//Main Class of Level Editor
+
 function Editor() {
   var view = View.getInstance();
   

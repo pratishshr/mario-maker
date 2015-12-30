@@ -1,3 +1,5 @@
+//Main Class through which both the game and level editor are instantiated
+
 var MarioMaker = (function() {
 
   var instance;
@@ -51,12 +53,16 @@ var MarioMaker = (function() {
       view.appendToBody(btnWrapper);
 
       editorButton.onclick = that.startEditor;
+    
       createdLevelsButton.onclick = that.startCreatedLevels;
+    
       backToMenuBtn.onclick = that.backToMenu;
+    
       startGameButton.onclick = function() {
         map = that.loadMainGameMap();
         that.startGame(map);
       }
+
     }
 
     this.loadMainGameMap = function() {
@@ -147,7 +153,9 @@ var MarioMaker = (function() {
           [1, 1, 1, 1, 1, 1, 1, 1, 1, 7, 8, 1, 1, 1, 1, 1, 7, 8, 0, 0, 0, 7, 8, 0, 0, 0, 7, 8, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 4, 0, 0, 4, 0, 0, 4, 4, 0, 0, 0, 0, 0, 7, 8, 1, 1, 1, 1, 1, 1, 1, 7, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7, 8, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 4, 0, 0, 4, 0, 0, 0, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
         ]
       };
+
       return map;
+      
     }
 
     this.startGame = function(levelMap) {
