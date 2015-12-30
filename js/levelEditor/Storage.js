@@ -4,7 +4,7 @@ function Storage() {
 
   this.getItem = function(itemName) {
     var item = localStorage.getItem(itemName);
-  
+
     return item;
   }
 

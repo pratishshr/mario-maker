@@ -2,7 +2,6 @@ function Mario() {
   var gameUI = GameUI.getInstance();
 
   this.type = 'small';
-
   this.x;
   this.y;
   this.width = 32;
@@ -22,6 +21,7 @@ function Mario() {
   this.init = function() {
     that.x = 10;
     that.y = gameUI.getHeight() - 40 - 40;
+
     marioSprite = new Image();
     marioSprite.src = 'images/mario-sprites.png';
   }
@@ -37,19 +37,18 @@ function Mario() {
 
       //big mario sprite position
       if(that.invulnerable){
-        that.sY = 276;
+        that.sY = 276; //if invulnerable, show transparent mario
       }else{
-      
         that.sY = 90;
       }
     }else if(that.type == 'small'){
       that.height = 44;
 
-      if(that.invulnerable){
-        that.sY = 222;
-      }else{
       //small mario sprite
-      that.sY = 4;
+      if(that.invulnerable){
+        that.sY = 222;  //if invulnerable, show transparent mario
+      }else{
+        that.sY = 4;
       }
     }else if(that.type == 'fire'){
       that.height = 60;
@@ -61,7 +60,7 @@ function Mario() {
 
   this.resetPos = function(){
     that.x = canvas.width / 10;
-    that.y = canvas.height - 40 - 500;
+    that.y = canvas.height - 40;
     that.frame = 0;
   }
 

@@ -24,23 +24,23 @@ function Preloader() {
       7: 'images/editor-btn.png',
       8: 'images/elements.png',
       9: 'images/enemies.png',
-     10: 'images/flag-pole.png',
-     11: 'images/flag.png',
-     12: 'images/goombas.png',
-     13: 'images/grid-large-btn.png',
-     14: 'images/grid-medium-btn.png',
-     15: 'images/grid-small-btn.png',
-     16: 'images/grid.png',
-     17: 'images/lvl-size.png',
-     18: 'images/mario-head.png',
-     19: 'images/mario-sprites.png',
-     20: 'images/powerups.png',
-     21: 'images/save-map-btn.png',
-     22: 'images/saved-btn.png',
-     23: 'images/slider-left.png',
-     24: 'images/slider-right.png',
-     25: 'images/start-btn.png',
-     26: 'images/start-screen.png'
+      10: 'images/flag-pole.png',
+      11: 'images/flag.png',
+      12: 'images/goombas.png',
+      13: 'images/grid-large-btn.png',
+      14: 'images/grid-medium-btn.png',
+      15: 'images/grid-small-btn.png',
+      16: 'images/grid.png',
+      17: 'images/lvl-size.png',
+      18: 'images/mario-head.png',
+      19: 'images/mario-sprites.png',
+      20: 'images/powerups.png',
+      21: 'images/save-map-btn.png',
+      22: 'images/saved-btn.png',
+      23: 'images/slider-left.png',
+      24: 'images/slider-right.png',
+      25: 'images/start-btn.png',
+      26: 'images/start-screen.png'
     }
 
     that.loadImages(imageSources);
@@ -51,21 +51,21 @@ function Preloader() {
     var loadedImages = 0;
     var totalImages = 0;
 
-    for(var key in imageSources) {
+    for (var key in imageSources) {
       totalImages++;
     }
 
-    for(var key in imageSources) {
+    for (var key in imageSources) {
       images[key] = new Image();
       images[key].src = imageSources[key];
-      
+
       images[key].onload = function() {
         loadedImages++;
-        percentage = Math.floor((loadedImages * 100) / totalImages) ;
-  
+        percentage = Math.floor((loadedImages * 100) / totalImages);
+
         view.setHTML(loadingPercentage, percentage + '%');
-        
-        if(loadedImages >= totalImages) {
+
+        if (loadedImages >= totalImages) {
           view.removeFromBody(loadingPercentage);
           that.initMainApp();
         }
@@ -80,7 +80,6 @@ function Preloader() {
     marioMakerInstance.init();
   }
 }
-
 
 window.onload = function() {
   var preloader = new Preloader();

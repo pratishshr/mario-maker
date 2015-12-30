@@ -1,4 +1,6 @@
 function Score() {
+  var view = View.getInstance();
+
   var scoreWrapper = document.getElementsByClassName('score-wrapper')[0];
   var coinScoreWrapper;
   var totalScoreWrapper;
@@ -9,7 +11,6 @@ function Score() {
   this.totalScore;
   this.lifeCount;
 
-  var view = View.getInstance();
   var that = this;
 
   this.init = function() {
@@ -26,12 +27,10 @@ function Score() {
     view.addClass(totalScoreWrapper, 'total-score');
     view.addClass(lifeCountWrapper, 'life-count');
     view.addClass(levelWrapper, 'level-num');
-
     view.append(scoreWrapper, levelWrapper);
     view.append(scoreWrapper, lifeCountWrapper);
     view.append(scoreWrapper, coinScoreWrapper);
     view.append(scoreWrapper, totalScoreWrapper);
-
   
     that.updateCoinScore();
     that.updateTotalScore();

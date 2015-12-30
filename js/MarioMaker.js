@@ -17,9 +17,9 @@ var MarioMaker = (function() {
     var backToMenuBtn;
 
     //instances
-    var marioGame = new MarioGame();
-    var editor = new Editor();
-    var createdLevels = new CreatedLevels();
+    var marioGame;
+    var editor;
+    var createdLevels;
 
     var that = this;
 
@@ -151,12 +151,10 @@ var MarioMaker = (function() {
     }
 
     this.startGame = function(levelMap) {
-      view.style(backToMenuBtn, {
-        display: 'block'
-      });
+      view.style(backToMenuBtn, { display: 'block' });
 
       marioGame.clearInstances();
-      marioGame.init(levelMap, 1);
+      marioGame.init(levelMap, 1); //initiate level 1 of map
 
       that.hideMainMenu();
       editor.removeEditorScreen();
@@ -164,16 +162,15 @@ var MarioMaker = (function() {
     }
 
     this.startEditor = function() {
-      view.style(backToMenuBtn, {
-        display: 'block'
-      });
+      view.style(backToMenuBtn, { display: 'block' });
 
-      if (editorStarted == 0) {
+      if (editorStarted == 0) { //instantiate only once, after that just show and hide the editor screen
         editor.init();
         editorStarted = 1;
       } else {
         editor.showEditorScreen();
       }
+
       that.hideMainMenu();
       marioGame.removeGameScreen();
       createdLevels.removeCreatedLevelsScreen();
@@ -181,9 +178,7 @@ var MarioMaker = (function() {
     }
 
     this.startCreatedLevels = function() {
-      view.style(backToMenuBtn, {
-        display: 'block'
-      });
+      view.style(backToMenuBtn, {display: 'block' });
 
       createdLevels.init();
       that.hideMainMenu();
@@ -192,8 +187,8 @@ var MarioMaker = (function() {
     }
 
     this.backToMenu = function() {
-      marioGame.pauseGame();
-      marioGame.clearReset();
+      marioGame.pauseGame(); //pause game when the back button is pressed so that the gameloop doesnt run more than once
+      marioGame.clearTimeOut(); //when mario dies, a timeout starts for resetting the game. Pressing the back button clears that timeout
       marioGame.removeGameScreen();
 
       editor.removeEditorScreen();
@@ -201,21 +196,15 @@ var MarioMaker = (function() {
       createdLevels.removeCreatedLevelsScreen();
       that.showMainMenu();
 
-      view.style(backToMenuBtn, {
-        display: 'none'
-      });
+      view.style(backToMenuBtn, { display: 'none' });
     }
 
     this.hideMainMenu = function() {
-      view.style(startScreen, {
-        display: 'none'
-      });
+      view.style(startScreen, { display: 'none' });
     }
 
     this.showMainMenu = function() {
-      view.style(startScreen, {
-        display: 'block'
-      });
+      view.style(startScreen, { display: 'block' });
     }
   }
 

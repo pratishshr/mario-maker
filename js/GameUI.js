@@ -25,6 +25,10 @@ var GameUI = (function() {
       return canvas.height;
     }
 
+    this.getCanvas = function() {
+      return canvas;
+    }
+
     this.show = function() {
       canvas.style.display = 'block';
     }

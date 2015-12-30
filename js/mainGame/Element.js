@@ -1,8 +1,10 @@
 function Element() {
   var gameUI = GameUI.getInstance();
-  
-  this.type;
 
+  var element = new Image();;
+  element.src = 'images/elements.png';
+
+  this.type;
   this.sX;
   this.sY = 0;
   this.x;
@@ -10,11 +12,8 @@ function Element() {
   this.width = 32;
   this.height = 32;
 
-  var element =  new Image();;
-  element.src = 'images/elements.png';
-
   var that = this;
- 
+
   this.platform = function() {
     that.type = 1;
     that.sX = 0;
@@ -25,12 +24,12 @@ function Element() {
     that.sX = 1 * that.width;
   }
 
-  this.mushroomBox = function(){
+  this.mushroomBox = function() {
     that.type = 3;
     that.sX = 2 * that.width;
   }
 
-  this.uselessBox = function(){
+  this.uselessBox = function() {
     that.type = 4;
     that.sX = 3 * that.width;
   }
@@ -49,7 +48,7 @@ function Element() {
     that.type = 7;
     that.sX = 6 * that.width;
   }
-  
+
   this.pipeRight = function() {
     that.type = 8;
     that.sX = 7 * that.width;
@@ -60,18 +59,15 @@ function Element() {
     that.sX = 8 * that.width;
   }
 
-
   this.pipeTopRight = function() {
     that.type = 10;
     that.sX = 9 * that.width;
   }
 
-
   this.flowerBox = function() {
     that.type = 11;
     that.sX = 10 * that.width;
   }
-
 
   this.draw = function() {
     gameUI.draw(element, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
