@@ -1,3 +1,5 @@
+//canvas elements for the main mario game
+
 var GameUI = (function() {
 
   var instance;
