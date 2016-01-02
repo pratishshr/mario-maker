@@ -592,7 +592,7 @@ function MarioGame() {
   this.checkBulletEnemyCollision = function() {
     for (var i = 0; i < goombas.length; i++) {
       for (var j = 0; j < bullets.length; j++) {
-        if (goombas[i]) { //check for collision only if goombas exist
+        if (goombas[i] && goombas[i].state != 'dead') { //check for collision only if goombas exist and is not dead
           var collWithBullet = that.collisionCheck(goombas[i], bullets[j]);
         }
 
