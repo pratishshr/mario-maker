@@ -464,12 +464,14 @@ function MarioGame() {
 
   this.checkElementEnemyCollision = function(element) {
     for (var i = 0; i < goombas.length; i++) {
-      var collisionDirection = that.collisionCheck(goombas[i], element);
+      if(goombas[i].state != 'deadFromBullet'){ //so that goombas fall from the map when dead from bullet
+        var collisionDirection = that.collisionCheck(goombas[i], element);
 
-      if (collisionDirection == 'l' || collisionDirection == 'r') {
-        goombas[i].velX *= -1;
-      } else if (collisionDirection == 'b') {
-        goombas[i].grounded = true;
+        if (collisionDirection == 'l' || collisionDirection == 'r') {
+          goombas[i].velX *= -1;
+        } else if (collisionDirection == 'b') {
+          goombas[i].grounded = true;
+        }
       }
     }
   }
@@ -510,7 +512,7 @@ function MarioGame() {
 
   this.checkEnemyMarioCollision = function() {
     for (var i = 0; i < goombas.length; i++) {
-      if (!mario.invulnerable && goombas[i].state != 'dead') { //if mario is invulnerable or goombas state is dead, collision doesnt occur
+      if (!mario.invulnerable && goombas[i].state != 'dead' && goombas[i].state != 'deadFromBullet') { //if mario is invulnerable or goombas state is dead, collision doesnt occur
         var collWithMario = that.collisionCheck(goombas[i], mario);
          
          if (collWithMario == 't') { //kill goombas if collision is from top
@@ -597,7 +599,15 @@ function MarioGame() {
         if (collWithBullet) {
           bullets[j] = null;
           bullets.splice(j, 1);
-          goombas.splice(i, 1);
+
+          goombas[i].state = 'deadFromBullet';
+          
+          //immediately-invoked function for retaining which goomba died
+          (function(i){
+            setTimeout(function() {  //show falling goomba for a brief moment then splice
+              goombas.splice(i, 1);
+            }, 2000);
+          })(i);
 
           score.totalScore += 1000;
           score.updateTotalScore();
@@ -634,11 +644,6 @@ function MarioGame() {
       }, 3000);
     }
 
-    if (bullets.length > 0) {
-      if (bullets[0].y >= height) {
-        bullets.splice(0, 1);
-      }
-    }
   }
 
   //controlling mario with key events

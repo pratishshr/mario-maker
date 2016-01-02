@@ -153,7 +153,7 @@
 .goomba{
   width: 31px;
   height: 31px;
-  background: url('../images/goombas.png') 0 0;
+  background: url('../images/enemies.png') 0 0;
 }
 
 .right-arrow{

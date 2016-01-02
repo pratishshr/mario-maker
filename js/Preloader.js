@@ -27,7 +27,7 @@ function Preloader() {
       9: 'images/enemies.png',
       10: 'images/flag-pole.png',
       11: 'images/flag.png',
-      12: 'images/goombas.png',
+      12: 'images/start-screen.png',
       13: 'images/grid-large-btn.png',
       14: 'images/grid-medium-btn.png',
       15: 'images/grid-small-btn.png',
@@ -41,7 +41,6 @@ function Preloader() {
       23: 'images/slider-left.png',
       24: 'images/slider-right.png',
       25: 'images/start-btn.png',
-      26: 'images/start-screen.png'
     }
 
     that.loadImages(imageSources);

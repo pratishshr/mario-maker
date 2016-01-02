@@ -42,8 +42,15 @@ function Enemy() {
       that.velY = 0;
     }
 
-   
-    if(that.state != 'dead'){
+    if (that.state == 'dead') { 
+      that.frame = 2;
+
+    } else if (that.state == 'deadFromBullet') { //animation of enemy dying from bullet animation
+      that.frame = 3;
+      that.velY += gravity;
+      that.y += that.velY;
+
+    } else { //only animate when not dead
       that.velY += gravity;
       that.x += that.velX;
       that.y += that.velY;
@@ -60,9 +67,7 @@ function Enemy() {
         }
 
       }
-    }else{
-      that.frame = 2;
-    }  
+    }
   }
 
 }
