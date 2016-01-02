@@ -7,12 +7,13 @@ function Enemy() {
   var element = new Image();;
   element.src = "images/enemies.png";
 
-  this.type;
   this.x;
   this.y;
   this.velX = 1;
   this.velY = 0;
   this.grounded = false;
+  this.type;
+  this.state;
 
   this.sX;
   this.sY = 0;
@@ -41,23 +42,27 @@ function Enemy() {
       that.velY = 0;
     }
 
-    that.velY += gravity;
+   
+    if(that.state != 'dead'){
+      that.velY += gravity;
+      that.x += that.velX;
+      that.y += that.velY;
 
-    that.x += that.velX;
-    that.y += that.velY;
+      //for animating
+      tickCounter += 1;
 
-    //for animating
-    tickCounter += 1;
+      if (tickCounter > maxTick) {
+        tickCounter = 0;
+        if (that.frame == 0) {
+          that.frame = 1;
+        } else {
+          that.frame = 0;
+        }
 
-    if (tickCounter > maxTick) {
-      tickCounter = 0;
-      if (that.frame == 0) {
-        that.frame = 1;
-      } else {
-        that.frame = 0;
       }
-
-    }
+    }else{
+      that.frame = 2;
+    }  
   }
 
 }

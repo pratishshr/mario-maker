@@ -62,7 +62,7 @@ function Score() {
 
 
   this.displayScore = function() {
-    view.style(scoreWrapper, {display: 'block'});
+    view.style(scoreWrapper, {display: 'block', background: '#add1f3'});
   }
 
   this.hideScore = function() {
@@ -71,10 +71,13 @@ function Score() {
     that.coinScore = 0;
     that.lifeCount = 5  ;
     that.totalScore = 0;
-    
     that.updateCoinScore();
     that.updateTotalScore();
     that.updateLifeCount();
+  }
+
+  this.gameOverView = function() {
+    view.style(scoreWrapper, {background: 'black'});
   }
 }
 

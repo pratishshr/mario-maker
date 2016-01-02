@@ -51,6 +51,17 @@ var GameUI = (function() {
       ctx.drawImage(image, sx, sy, width, height, x, y, width, height);
     }
 
+    this.makeBox = function(x, y, width, height) {
+      ctx.rect(x, y, width, height);
+      ctx.fillStyle = 'black';
+      ctx.fill();
+    }
+
+    this.writeText = function(text, x, y) {
+      ctx.font="20px SuperMario256";
+      ctx.fillStyle = 'white';
+      ctx.fillText(text, x, y);
+    } 
 
   }
 
