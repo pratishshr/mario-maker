@@ -242,10 +242,10 @@ function MarioGame() {
             that.checkElementBulletCollision(element);
             break;
 
-          case 3: //mushroomBox
+          case 3: //powerUp Box
             element.x = column * tileSize;
             element.y = row * tileSize;
-            element.mushroomBox();
+            element.powerUpBox();
             element.draw();
 
             that.checkElementMarioCollision(element, row, column);
@@ -330,18 +330,6 @@ function MarioGame() {
             that.checkElementBulletCollision(element);
             break;
 
-          case 11: //flowerBox
-            element.x = column * tileSize;
-            element.y = row * tileSize;
-            element.flowerBox();
-            element.draw();
-
-            that.checkElementMarioCollision(element, row, column);
-            that.checkElementPowerUpCollision(element);
-            that.checkElementEnemyCollision(element);
-            that.checkElementBulletCollision(element);
-            break;
-
           case 20: //goomba
             var enemy = new Enemy();
             enemy.x = column * tileSize;
@@ -418,10 +406,17 @@ function MarioGame() {
         mario.velY *= -1;
       }
 
-      if (element.type == 3) { //Mushroom Box
+      if (element.type == 3) { //PowerUp Box
         var powerUp = new PowerUp();
-        powerUp.mushroom(element.x, element.y);
-        powerUps.push(powerUp);
+
+        //gives mushroom if mario is small, otherwise gives flower
+        if(mario.type == 'small'){
+          powerUp.mushroom(element.x, element.y);
+          powerUps.push(powerUp);
+        }else{
+          powerUp.flower(element.x, element.y);
+          powerUps.push(powerUp);
+        }
 
         map[row][column] = 4; //sets to useless box after powerUp appears
 

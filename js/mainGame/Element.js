@@ -24,7 +24,7 @@ function Element() {
     that.sX = 1 * that.width;
   }
 
-  this.mushroomBox = function() {
+  this.powerUpBox = function() {
     that.type = 3;
     that.sX = 2 * that.width;
   }
@@ -62,11 +62,6 @@ function Element() {
   this.pipeTopRight = function() {
     that.type = 10;
     that.sX = 9 * that.width;
-  }
-
-  this.flowerBox = function() {
-    that.type = 11;
-    that.sX = 10 * that.width;
   }
 
   this.draw = function() {

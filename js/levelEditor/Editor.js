@@ -106,7 +106,7 @@ function Editor() {
 
   this.showElements = function() {
     elementWrapper = document.getElementsByClassName('element-wrapper')[0];
-    var elements = ['cell', 'platform', 'coin-box', 'mushroom-box', 'flower-box', 'useless-box', 'flag', 'flag-pole', 'pipe-left', 'pipe-right', 'pipe-top-left', 'pipe-top-right', 'goomba', ];
+    var elements = ['cell', 'platform', 'coin-box', 'power-up-box', 'useless-box', 'flag', 'flag-pole', 'pipe-left', 'pipe-right', 'pipe-top-left', 'pipe-top-right', 'goomba', ];
     var element;
 
     var saveMap = view.create('button');
@@ -201,7 +201,7 @@ function Editor() {
             value = 2;
             break;
 
-          case 'mushroom-box':
+          case 'power-up-box':
             value = 3;
             break;
 
@@ -235,10 +235,6 @@ function Editor() {
 
           case 'pipe-top-right':
             value = 10;
-            break;
-
-          case 'flower-box':
-            value = 11;
             break;
 
           default:

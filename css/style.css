@@ -103,16 +103,10 @@
   background: url('../images/elements.png') -32px 0;
 }
 
-.mushroom-box{
+.power-up-box{
   width: 31px;
   height: 31px;
   background: url('../images/elements.png') -64px 0;
-}
-
-.flower-box{
-  width: 31px;
-  height: 31px;
-  background: url('../images/elements.png') -320px 0;
 }
 
 .useless-box{
@@ -207,6 +201,7 @@
 .grid-medium-btn:selected {
   background: red;
 }
+
 .grid-medium-btn{
   float: left;
   width: 96px;
