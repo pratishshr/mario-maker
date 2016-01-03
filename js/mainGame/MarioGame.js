@@ -411,10 +411,10 @@ function MarioGame() {
         var powerUp = new PowerUp();
 
         //gives mushroom if mario is small, otherwise gives flower
-        if(mario.type == 'small'){
+        if (mario.type == 'small') {
           powerUp.mushroom(element.x, element.y);
           powerUps.push(powerUp);
-        }else{
+        } else {
           powerUp.flower(element.x, element.y);
           powerUps.push(powerUp);
         }
@@ -464,7 +464,7 @@ function MarioGame() {
 
   this.checkElementEnemyCollision = function(element) {
     for (var i = 0; i < goombas.length; i++) {
-      if(goombas[i].state != 'deadFromBullet'){ //so that goombas fall from the map when dead from bullet
+      if (goombas[i].state != 'deadFromBullet') { //so that goombas fall from the map when dead from bullet
         var collisionDirection = that.collisionCheck(goombas[i], element);
 
         if (collisionDirection == 'l' || collisionDirection == 'r') {
@@ -514,14 +514,15 @@ function MarioGame() {
     for (var i = 0; i < goombas.length; i++) {
       if (!mario.invulnerable && goombas[i].state != 'dead' && goombas[i].state != 'deadFromBullet') { //if mario is invulnerable or goombas state is dead, collision doesnt occur
         var collWithMario = that.collisionCheck(goombas[i], mario);
-         
+        
          if (collWithMario == 't') { //kill goombas if collision is from top
           goombas[i].state = 'dead';
+
           mario.velY = -((mario.speed));
-          
+
           score.totalScore += 1000;
           score.updateTotalScore();
-         
+
           //sound when enemy dies
           gameSound.play('killEnemy');
 
@@ -568,10 +569,10 @@ function MarioGame() {
             timeOutId = setTimeout(function() {
               if (score.lifeCount == 0) {
                 that.gameOver();
-              }else {
+              } else {
                 that.resetGame();
               }
-           
+
             }, 3000);
             break;
           }

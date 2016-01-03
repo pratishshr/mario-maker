@@ -73,6 +73,6 @@ function Enemy() {
 
       }
     }
-  }
 
+  }
 }
