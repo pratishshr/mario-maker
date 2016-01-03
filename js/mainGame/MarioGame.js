@@ -622,12 +622,15 @@ function MarioGame() {
 
       score.lifeCount--;
       score.updateLifeCount();
+
       timeOutId = setTimeout(function() {
-        that.resetGame();
         if (score.lifeCount == 0) {
           that.gameOver();
+        } else {
+          that.resetGame();
         }
-      }, 3000);
+
+      }, 3000); 
     }
 
   }
@@ -825,9 +828,6 @@ function MarioGame() {
     gameUI.makeBox(0, 0, maxWidth, height);
     gameUI.writeText('Game Over', centerPos - 80, height - 300);
     gameUI.writeText('Thanks For Playing', centerPos - 122, height / 2);
-    // //return back to menu
-    // var marioMakerInstance = MarioMaker.getInstance();
-    // marioMakerInstance.backToMenu();
   }
 
   this.resetGame = function() {
