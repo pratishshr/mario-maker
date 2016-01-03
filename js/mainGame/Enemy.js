@@ -42,32 +42,21 @@ function Enemy() {
       that.velY = 0;
     }
 
-    if (that.state == 'dead') { 
-      that.frame = 2;
+    that.velY += gravity;
+    that.x += that.velX;
+    that.y += that.velY;
 
-    } else if (that.state == 'deadFromBullet') { //animation of enemy dying from bullet animation
-      that.frame = 3;
-      that.velY += gravity;
-      that.y += that.velY;
+    //for animating
+    tickCounter += 1;
 
-    } else { //only animate when not dead
-      that.velY += gravity;
-      that.x += that.velX;
-      that.y += that.velY;
-
-      //for animating
-      tickCounter += 1;
-
-      if (tickCounter > maxTick) {
-        tickCounter = 0;
-        if (that.frame == 0) {
-          that.frame = 1;
-        } else {
-          that.frame = 0;
-        }
-
+    if (tickCounter > maxTick) {
+      tickCounter = 0;
+      if (that.frame == 0) {
+        that.frame = 1;
+      } else {
+        that.frame = 0;
       }
     }
-  }
 
+  }
 }

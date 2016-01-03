@@ -55,7 +55,7 @@ function Mario() {
 
       //fire mario sprite
       that.sY = 150;
-    } 
+    }
   }
 
   this.resetPos = function() {
