@@ -517,19 +517,11 @@ function MarioGame() {
          
          if (collWithMario == 't') { //kill goombas if collision is from top
           goombas[i].state = 'dead';
-          
           mario.velY = -((mario.speed));
           
           score.totalScore += 1000;
           score.updateTotalScore();
-
-          //immediately-invoked function for retaining which goomba died
-          (function(j){
-            setTimeout(function() { //show squashed goomba for a brief moment then splice
-              goombas.splice(j, 1);
-            }, 1000);
-          })(i);
-
+         
           //sound when enemy dies
           gameSound.play('killEnemy');
 
@@ -602,13 +594,6 @@ function MarioGame() {
 
           goombas[i].state = 'deadFromBullet';
           
-          //immediately-invoked function for retaining which goomba died
-          (function(i){
-            setTimeout(function() {  //show falling goomba for a brief moment then splice
-              goombas.splice(i, 1);
-            }, 2000);
-          })(i);
-
           score.totalScore += 1000;
           score.updateTotalScore();
 

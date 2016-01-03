@@ -43,9 +43,14 @@ function Enemy() {
     }
 
     if (that.state == 'dead') { 
-      that.frame = 2;
+      that.frame = 2; //squashed goomba
 
-    } else if (that.state == 'deadFromBullet') { //animation of enemy dying from bullet animation
+      tickCounter++;
+      if(tickCounter >= 60){
+        that.frame = 4;
+      }
+
+    } else if (that.state == 'deadFromBullet') { //falling goomba
       that.frame = 3;
       that.velY += gravity;
       that.y += that.velY;
