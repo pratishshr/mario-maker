@@ -2,17 +2,21 @@ function CreatedLevels() {
   var view = View.getInstance();
 
   var storage;
-  var wrapper = document.getElementsByClassName('saved-levels')[0];
+  var levelsWrapper;
 
   var that = this;
 
   this.init = function() {
+    var mainWrapper = view.getMainWrapper();
     var deleteAllBtn = view.create('button');
+    levelsWrapper = view.create('div');
 
+    view.addClass(levelsWrapper, 'levels-wrapper');
     view.addClass(deleteAllBtn, 'delete-all-btn');
-    view.addClass(wrapper, 'levels-wrapper');
-    view.style(wrapper, { display: 'block' });
-    view.append(wrapper, deleteAllBtn);
+    view.style(levelsWrapper, { display: 'block' });
+    view.append(levelsWrapper, deleteAllBtn);
+    view.append(mainWrapper, levelsWrapper);
+
     deleteAllBtn.onclick = that.deleteAllMaps;
 
     storage = new Storage();
@@ -30,7 +34,7 @@ function CreatedLevels() {
         
         view.setHTML(levelButton, levelName);
         view.addClass(levelButton, 'level-btn');
-        view.append(wrapper, levelButton);
+        view.append(levelsWrapper, levelButton);
 
         levelButton.onclick = (function(i) {
           return function() {
@@ -44,7 +48,7 @@ function CreatedLevels() {
      
       view.addClass(noMapsMessage, 'no-maps');
       view.setHTML(noMapsMessage, 'No maps currently saved. Please use the Level Editor to create custom Maps');
-      view.append(wrapper, noMapsMessage);
+      view.append(levelsWrapper, noMapsMessage);
     }
   }
 
@@ -58,24 +62,24 @@ function CreatedLevels() {
   this.startLevel = function(i) {
     var marioMakerInstance = MarioMaker.getInstance();
     var levelName = storage.getItemName(i);
-    var level = JSON.parse(storage.getItem(levelName));
+    var level = storage.getItem(levelName);
     var map = { 1: level }; //always only one level in saved maps.
 
     marioMakerInstance.startGame(map);
   }
 
   this.showCreatedLevelsScreen = function() {
-    if (wrapper) {
-      view.style(wrapper, { display: 'block' });
+    if (levelsWrapper) {
+      view.style(levelsWrapper, { display: 'block' });
     }
   }
 
   this.removeCreatedLevelsScreen = function() {
-    if (wrapper) {
-      view.style(wrapper, { display: 'none' });
+    if (levelsWrapper) {
+      view.style(levelsWrapper, { display: 'none' });
 
-      while (wrapper.hasChildNodes()) { //removes all the created levels on screen, so that it can be initiated again showing new levels that user creates
-        view.remove(wrapper, wrapper.lastChild);
+      while (levelsWrapper.hasChildNodes()) { //removes all the created levels on screen, so that it can be initiated again showing new levels that user creates
+        view.remove(levelsWrapper, levelsWrapper.lastChild);
       }
     }
   }

@@ -21,9 +21,9 @@ function MarioGame() {
   var score;
 
   var keys = [];
-  var goombas = [];
-  var powerUps = [];
-  var bullets = [];
+  var goombas;
+  var powerUps;
+  var bullets;
   var bulletFlag = false;
 
   var currentLevel;
@@ -52,7 +52,7 @@ function MarioGame() {
 
     currentLevel = level;
     originalMaps = levelMaps;
-    map = JSON.parse(JSON.stringify(levelMaps[currentLevel]));
+    map = JSON.parse(levelMaps[currentLevel]);
 
     if (!score) { //so that when level changes, it uses the same instance
       score = new Score();
@@ -355,11 +355,11 @@ function MarioGame() {
     var hHeights = (objA.height / 2) + (objB.height / 2);
     var collisionDirection = null;
 
-    // if the x and y vector are less than the half width or half height, they we must be inside the object, causing a collision
+    // if the x and y vector are less than the half width or half height, then we must be inside the object, causing a collision
     if (Math.abs(vX) < hWidths && Math.abs(vY) < hHeights) {
       // figures out on which side we are colliding (top, bottom, left, or right)
-      var offsetX = hWidths - Math.abs(vX),
-        offsetY = hHeights - Math.abs(vY);
+      var offsetX = hWidths - Math.abs(vX);
+      var offsetY = hHeights - Math.abs(vY);
 
       if (offsetX >= offsetY) {
         if (vY > 0 && vY < 37) {
@@ -514,8 +514,8 @@ function MarioGame() {
     for (var i = 0; i < goombas.length; i++) {
       if (!mario.invulnerable && goombas[i].state != 'dead' && goombas[i].state != 'deadFromBullet') { //if mario is invulnerable or goombas state is dead, collision doesnt occur
         var collWithMario = that.collisionCheck(goombas[i], mario);
-        
-         if (collWithMario == 't') { //kill goombas if collision is from top
+
+        if (collWithMario == 't') { //kill goombas if collision is from top
           goombas[i].state = 'dead';
 
           mario.velY = -((mario.speed));
@@ -594,7 +594,7 @@ function MarioGame() {
           bullets.splice(j, 1);
 
           goombas[i].state = 'deadFromBullet';
-          
+
           score.totalScore += 1000;
           score.updateTotalScore();
 
@@ -630,7 +630,7 @@ function MarioGame() {
           that.resetGame();
         }
 
-      }, 3000); 
+      }, 3000);
     }
 
   }
@@ -823,7 +823,6 @@ function MarioGame() {
   }
 
   this.gameOver = function() {
-
     score.gameOverView();
     gameUI.makeBox(0, 0, maxWidth, height);
     gameUI.writeText('Game Over', centerPos - 80, height - 300);

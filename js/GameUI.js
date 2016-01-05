@@ -5,7 +5,7 @@ var GameUI = (function() {
   var instance;
 
   function GameUI() {
-
+    
     var canvas = document.getElementsByClassName('game-screen')[0];
     var ctx = canvas.getContext('2d');
 

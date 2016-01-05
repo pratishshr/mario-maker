@@ -2,7 +2,8 @@
 
 function Editor() {
   var view = View.getInstance();
-  
+  var mainWrapper;
+
   var gameWorld; 
   var viewPort; 
 
@@ -20,9 +21,12 @@ function Editor() {
   var that = this;
 
   this.init = function() {
-    viewPort = document.getElementsByClassName('editor-screen')[0];
+    mainWrapper = view.getMainWrapper();
+    viewPort = view.create('div');
 
+    view.addClass(viewPort, 'editor-screen');
     view.style(viewPort, { display: 'block' });
+    view.append(mainWrapper, viewPort);
 
     that.createLevelEditor();
     that.drawGrid(3840); //draws grid of size 3840px by default at start
@@ -105,7 +109,11 @@ function Editor() {
   }
 
   this.showElements = function() {
-    elementWrapper = document.getElementsByClassName('element-wrapper')[0];
+    elementWrapper = view.create('div');
+
+    view.addClass(elementWrapper, 'element-wrapper');
+    view.append(mainWrapper, elementWrapper);
+
     var elements = ['cell', 'platform', 'coin-box', 'power-up-box', 'useless-box', 'flag', 'flag-pole', 'pipe-left', 'pipe-right', 'pipe-top-left', 'pipe-top-right', 'goomba', ];
     var element;
 

@@ -5,6 +5,12 @@ var View = (function() {
 
   function View() {
 
+    this.getMainWrapper = function() {
+      var element = document.getElementsByClassName('main-wrapper')[0];
+
+      return element;
+    }
+
     this.create = function(elementName) {
       var element = document.createElement(elementName);
 
@@ -16,7 +22,15 @@ var View = (function() {
     }
 
     this.append = function(parentElement, childElement) {
-      parentElement.appendChild(childElement);
+      //appends everything before the back button, score wrapper in top and everything else in between
+      if(childElement.className == 'score-wrapper') {
+        parentElement.insertBefore(childElement, parentElement.firstChild);
+      }else if(parentElement.lastChild && parentElement.lastChild.className == 'btn-wrapper'){
+        parentElement.insertBefore(childElement, parentElement.lastChild);
+      }else{  
+        parentElement.appendChild(childElement);
+      }
+
     }
 
     this.appendToBody = function(childElement) {
