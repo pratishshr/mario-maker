@@ -33,7 +33,7 @@ function MarioGame() {
 
   var tickCounter = 0; //for animating mario
   var maxTick = 25; //max number for ticks to show mario sprite
-
+  var instructionTick = 0; //showing instructions counter
   var that = this;
 
   this.init = function(levelMaps, level) {
@@ -178,6 +178,11 @@ function MarioGame() {
 
     gameUI.clear(0, 0, maxWidth, height);
 
+    if(instructionTick < 1000){
+      that.showInstructions(); //showing control instructions
+      instructionTick++;
+    }
+
     that.renderMap();
 
     for (var i = 0; i < powerUps.length; i++) {
@@ -203,6 +208,11 @@ function MarioGame() {
     that.updateMario();
     that.wallCollision();
     marioInGround = mario.grounded; //for use with flag sliding
+  }
+
+  this.showInstructions = function() {
+    gameUI.writeText('Controls: Arrow keys for direction, shift to run, ctrl for bullets', 30, 30)
+    gameUI.writeText('Tip: Jumping while running makes to jump higher', 30 , 60);
   }
 
   this.renderMap = function() {
