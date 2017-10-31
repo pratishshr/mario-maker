@@ -1,7 +1,6 @@
 //Main Class through which both the game and level editor are instantiated
 
 var MarioMaker = (function() {
-
   var instance;
 
   function MarioMaker() {
@@ -39,7 +38,7 @@ var MarioMaker = (function() {
       startGameButton = view.create('button');
       createdLevelsButton = view.create('div');
       backToMenuBtn = view.create('button');
-  
+
       view.addClass(btnWrapper, 'btn-wrapper');
       view.addClass(startScreen, 'start-screen');
       view.addClass(editorButton, 'editor-btn');
@@ -55,17 +54,16 @@ var MarioMaker = (function() {
       view.append(mainWrapper, btnWrapper);
 
       editorButton.onclick = that.startEditor;
-    
+
       createdLevelsButton.onclick = that.startCreatedLevels;
-    
+
       backToMenuBtn.onclick = that.backToMenu;
-    
+
       startGameButton.onclick = function() {
         map = that.loadMainGameMap();
         that.startGame(map);
-      }
-
-    }
+      };
+    };
 
     this.loadMainGameMap = function() {
       var map = {
@@ -77,7 +75,7 @@ var MarioMaker = (function() {
       };
 
       return map;
-    }
+    };
 
     this.startGame = function(levelMap) {
       view.style(backToMenuBtn, { display: 'block' });
@@ -88,12 +86,13 @@ var MarioMaker = (function() {
       that.hideMainMenu();
       editor.removeEditorScreen();
       createdLevels.removeCreatedLevelsScreen();
-    }
+    };
 
     this.startEditor = function() {
       view.style(backToMenuBtn, { display: 'block' });
 
-      if (editorStarted == 0) { //instantiate only once, after that just show and hide the editor screen
+      if (editorStarted == 0) {
+        //instantiate only once, after that just show and hide the editor screen
         editor.init();
         editorStarted = 1;
       } else {
@@ -103,17 +102,16 @@ var MarioMaker = (function() {
       that.hideMainMenu();
       marioGame.removeGameScreen();
       createdLevels.removeCreatedLevelsScreen();
-
-    }
+    };
 
     this.startCreatedLevels = function() {
-      view.style(backToMenuBtn, {display: 'block' });
+      view.style(backToMenuBtn, { display: 'block' });
 
       createdLevels.init();
       that.hideMainMenu();
       marioGame.removeGameScreen();
       editor.removeEditorScreen();
-    }
+    };
 
     this.backToMenu = function() {
       marioGame.pauseGame(); //pause game when the back button is pressed so that the gameloop doesnt run more than once
@@ -126,15 +124,15 @@ var MarioMaker = (function() {
       that.showMainMenu();
 
       view.style(backToMenuBtn, { display: 'none' });
-    }
+    };
 
     this.hideMainMenu = function() {
       view.style(startScreen, { display: 'none' });
-    }
+    };
 
     this.showMainMenu = function() {
       view.style(startScreen, { display: 'block' });
-    }
+    };
   }
 
   return {
@@ -145,6 +143,5 @@ var MarioMaker = (function() {
 
       return instance;
     }
-  }
-
-}());
+  };
+})();
