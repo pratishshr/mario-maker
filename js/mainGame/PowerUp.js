@@ -1,8 +1,8 @@
 function PowerUp() {
   var gameUI = GameUI.getInstance();
 
-  var element = new Image();;
-  element.src = "images/powerups.png";
+  var element = new Image();
+  element.src = 'images/powerups.png';
 
   this.type;
   this.x;
@@ -22,18 +22,18 @@ function PowerUp() {
     that.y = y - that.height;
     that.type = 30;
     that.sX = 0;
-  }
+  };
 
   this.flower = function(x, y) {
     that.x = x;
     that.y = y - that.height;
     that.type = 31;
     that.sX = 32;
-  }
+  };
 
   this.draw = function() {
     gameUI.draw(element, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
-  }
+  };
 
   this.update = function() {
     if (that.type == 30) {
@@ -48,5 +48,5 @@ function PowerUp() {
       that.x += that.velX;
       that.y += that.velY;
     }
-  }
+  };
 }

@@ -4,8 +4,8 @@ function Editor() {
   var view = View.getInstance();
   var mainWrapper;
 
-  var gameWorld; 
-  var viewPort; 
+  var gameWorld;
+  var viewPort;
 
   var grid;
   var elementwrapper;
@@ -15,7 +15,7 @@ function Editor() {
   var height = 480;
   var tileSize = 32;
   var scrollMargin = 0;
-  
+
   var selectedElement = [];
 
   var that = this;
@@ -31,7 +31,7 @@ function Editor() {
     that.createLevelEditor();
     that.drawGrid(3840); //draws grid of size 3840px by default at start
     that.showElements();
-  }
+  };
 
   this.createLevelEditor = function() {
     var rightArrow = view.create('div');
@@ -50,8 +50,7 @@ function Editor() {
 
     rightArrow.addEventListener('click', that.rightScroll);
     leftArrow.addEventListener('click', that.leftScroll);
-
-  }
+  };
 
   this.drawGrid = function(width) {
     maxWidth = width;
@@ -67,10 +66,10 @@ function Editor() {
       var tr = view.create('tr');
       for (j = 1; j <= column; j++) {
         var td = view.create('td');
-       
+
         view.addClass(td, 'cell');
 
-        td.addEventListener("mousedown", function(e) { 
+        td.addEventListener('mousedown', function(e) {
           e.preventDefault(); //to stop the mouse pointer to change
         });
 
@@ -79,7 +78,7 @@ function Editor() {
             selectedElement.push(this);
             view.addClass(this, 'active');
             mousedown = true;
-          }
+          };
         })(i, j);
 
         td.onmouseover = (function(i, j) {
@@ -88,25 +87,26 @@ function Editor() {
               selectedElement.push(this);
               view.addClass(this, 'active');
             }
-          }
+          };
         })(i, j);
 
         td.onmouseup = function() {
           mousedown = false;
-        }
+        };
 
         view.append(tr, td);
       }
 
       view.append(grid, tr);
 
-      grid.onmouseleave = function() { //if mouse hovers over the editor screen
+      grid.onmouseleave = function() {
+        //if mouse hovers over the editor screen
         mousedown = false;
-      }
+      };
     }
 
     view.append(gameWorld, grid);
-  }
+  };
 
   this.showElements = function() {
     elementWrapper = view.create('div');
@@ -114,7 +114,20 @@ function Editor() {
     view.addClass(elementWrapper, 'element-wrapper');
     view.append(mainWrapper, elementWrapper);
 
-    var elements = ['cell', 'platform', 'coin-box', 'power-up-box', 'useless-box', 'flag', 'flag-pole', 'pipe-left', 'pipe-right', 'pipe-top-left', 'pipe-top-right', 'goomba', ];
+    var elements = [
+      'cell',
+      'platform',
+      'coin-box',
+      'power-up-box',
+      'useless-box',
+      'flag',
+      'flag-pole',
+      'pipe-left',
+      'pipe-right',
+      'pipe-top-left',
+      'pipe-top-right',
+      'goomba'
+    ];
     var element;
 
     var saveMap = view.create('button');
@@ -123,21 +136,21 @@ function Editor() {
     var gridSmallBtn = view.create('button');
     var gridMediumBtn = view.create('button');
     var gridLargeBtn = view.create('button');
-    
+
     //for every element in the 'elements' array, it creates a div and sets the class name
     for (i = 0; i < elements.length; i++) {
       element = view.create('div');
-      
+
       view.addClass(element, elements[i]);
       view.append(elementWrapper, element);
-      
+
       element.onclick = (function(i) {
         return function() {
           that.drawElement(elements[i]);
-        }
+        };
       })(i);
     }
-   
+
     view.addClass(lvlSize, 'lvl-size');
     view.addClass(gridSmallBtn, 'grid-small-btn');
     view.addClass(gridMediumBtn, 'grid-medium-btn');
@@ -157,23 +170,22 @@ function Editor() {
     gridSmallBtn.addEventListener('click', that.gridSmall);
     gridMediumBtn.addEventListener('click', that.gridMedium);
     gridLargeBtn.addEventListener('click', that.gridLarge);
-
-  }
+  };
 
   that.gridSmall = function() {
     view.remove(gameWorld, grid);
     that.drawGrid(1280); //small grid size
-  }
+  };
 
   that.gridMedium = function() {
     view.remove(gameWorld, grid);
     that.drawGrid(3840); //medium grid size
-  }
+  };
 
   that.gridLarge = function() {
     view.remove(gameWorld, grid);
     that.drawGrid(6400); //large grid size
-  }
+  };
 
   this.drawElement = function(element) {
     /*
@@ -187,7 +199,7 @@ function Editor() {
     }
 
     selectedElement = [];
-  }
+  };
 
   that.generateMap = function() {
     var newMap = [];
@@ -254,8 +266,7 @@ function Editor() {
       newMap.push(columns);
     }
     map = newMap;
-
-  }
+  };
 
   this.saveMap = function() {
     var storage = new Storage();
@@ -265,7 +276,7 @@ function Editor() {
 
     levelCounter++;
 
-    //for fixing the sorting of the localStorage, 01 02 ... 10 11, otherwise the sorting would be 1 10 11 .. 2 20 21 .. 
+    //for fixing the sorting of the localStorage, 01 02 ... 10 11, otherwise the sorting would be 1 10 11 .. 2 20 21 ..
     if (levelCounter < 10) {
       levelName = 'savedLevel' + '0' + levelCounter;
     } else {
@@ -276,22 +287,21 @@ function Editor() {
     storage.setItem('levelCounter', levelCounter);
 
     console.log(storage.getItem(levelName)); //for copying the generated map if required
-
-  }
+  };
 
   this.rightScroll = function() {
     if (scrollMargin > -(maxWidth - 1280)) {
       scrollMargin += -160;
       view.style(gameWorld, { 'margin-left': scrollMargin + 'px' });
     }
-  }
+  };
 
   this.leftScroll = function() {
     if (scrollMargin != 0) {
       scrollMargin += 160;
       view.style(gameWorld, { 'margin-left': scrollMargin + 'px' });
     }
-  }
+  };
 
   this.resetEditor = function() {
     var gridRows = grid.getElementsByTagName('tr');
@@ -306,7 +316,7 @@ function Editor() {
     selectedElement = [];
     scrollMargin = 0;
     view.style(gameWorld, { 'margin-left': scrollMargin + 'px' });
-  }
+  };
 
   this.removeEditorScreen = function() {
     if (viewPort) {
@@ -314,13 +324,12 @@ function Editor() {
       view.style(viewPort, { display: 'none' });
       view.style(elementWrapper, { display: 'none' });
     }
-  }
-
+  };
 
   this.showEditorScreen = function() {
     if (viewPort) {
       view.style(viewPort, { display: 'block' });
       view.style(elementWrapper, { display: 'block' });
     }
-  }
+  };
 }

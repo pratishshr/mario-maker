@@ -24,12 +24,12 @@ function Mario() {
 
     marioSprite = new Image();
     marioSprite.src = 'images/mario-sprites.png';
-  }
+  };
 
   this.draw = function() {
     that.sX = that.width * that.frame;
     gameUI.draw(marioSprite, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
-  }
+  };
 
   this.checkMarioType = function() {
     if (that.type == 'big') {
@@ -56,12 +56,11 @@ function Mario() {
       //fire mario sprite
       that.sY = 150;
     }
-  }
+  };
 
   this.resetPos = function() {
     that.x = canvas.width / 10;
     that.y = canvas.height - 40;
     that.frame = 0;
-  }
-
+  };
 }

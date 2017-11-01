@@ -1,9 +1,9 @@
 function Bullet() {
   var gameUI = GameUI.getInstance();
- 
-  var element = new Image();;
-  element.src = "images/bullet.png";
-  
+
+  var element = new Image();
+  element.src = 'images/bullet.png';
+
   this.x;
   this.y;
   this.velX;
@@ -23,16 +23,17 @@ function Bullet() {
     that.y = y + 30;
     that.type = 30;
     that.sX = 0;
-  }
+  };
 
   this.draw = function() {
     gameUI.draw(element, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
-  }
+  };
 
   this.update = function() {
     var gravity = 0.2;
 
-    if (that.grounded) { //bouncing the bullet as it touches the ground
+    if (that.grounded) {
+      //bouncing the bullet as it touches the ground
       that.velY = -4;
       that.grounded = false;
     }
@@ -41,6 +42,5 @@ function Bullet() {
 
     that.x += that.velX;
     that.y += that.velY;
-  }
-  
+  };
 }

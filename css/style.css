@@ -1,6 +1,9 @@
-@font-face { font-family: SuperMario256; src: url('../fonts/SuperMario256.ttf'); } 
+@font-face {
+  font-family: SuperMario256;
+  src: url('../fonts/SuperMario256.ttf');
+}
 
-.start-screen{
+.start-screen {
   width: 1280px;
   height: 530px;
   margin: 0 auto;
@@ -9,7 +12,7 @@
   position: relative;
 }
 
-.editor-screen{
+.editor-screen {
   width: 1280px;
   height: 480px;
   margin: 0 auto;
@@ -20,7 +23,7 @@
   display: none;
 }
 
-.game-screen{
+.game-screen {
   width: 1280px;
   height: 480px;
   border: 1px solid black;
@@ -30,7 +33,7 @@
   margin: 0 auto;
 }
 
-.score-wrapper{
+.score-wrapper {
   padding-left: 40px;
   width: 1240px;
   margin: 0 auto;
@@ -81,7 +84,7 @@
   opacity: 0.5;
 }
 
-.element-wrapper{
+.element-wrapper {
   width: 1280px;
   height: 130px;
   background: #d2d2d2;
@@ -90,73 +93,73 @@
   display: none;
 }
 
-.platform{
+.platform {
   width: 31px;
   height: 31px;
   background: url('../images/elements.png') 0 0;
 }
 
-.coin-box{
+.coin-box {
   width: 31px;
   height: 31px;
   background: url('../images/elements.png') -32px 0;
 }
 
-.power-up-box{
+.power-up-box {
   width: 31px;
   height: 31px;
   background: url('../images/elements.png') -64px 0;
 }
 
-.useless-box{
+.useless-box {
   width: 31px;
   height: 31px;
   background: url('../images/elements.png') -96px 0;
 }
 
-.flag-pole{
+.flag-pole {
   width: 31px;
   height: 31px;
   background: url('../images/elements.png') -128px 0;
 }
 
-.flag{
+.flag {
   width: 31px;
   height: 31px;
   background: url('../images/elements.png') -160px 0;
 }
 
-.pipe-left{
+.pipe-left {
   width: 31px;
   height: 31px;
   background: url('../images/elements.png') -192px 0;
 }
 
-.pipe-right{
+.pipe-right {
   width: 31px;
   height: 31px;
   background: url('../images/elements.png') -224px 0;
 }
 
-.pipe-top-left{
+.pipe-top-left {
   width: 31px;
   height: 31px;
   background: url('../images/elements.png') -256px 0;
 }
 
-.pipe-top-right{
+.pipe-top-right {
   width: 31px;
   height: 31px;
   background: url('../images/elements.png') -288px 0;
 }
 
-.goomba{
+.goomba {
   width: 31px;
   height: 31px;
   background: url('../images/enemies.png') 0 0;
 }
 
-.right-arrow{
+.right-arrow {
   width: 60px;
   height: 60px;
   top: 215px;
@@ -165,7 +168,7 @@
   position: absolute;
 }
 
-.left-arrow{
+.left-arrow {
   width: 60px;
   height: 60px;
   top: 215px;
@@ -174,12 +177,12 @@
   position: absolute;
 }
 
-.element-wrapper *{
+.element-wrapper * {
   margin: 10px;
   float: left;
 }
 
-.lvl-size{
+.lvl-size {
   clear: both;
   float: left;
   width: 115px;
@@ -188,7 +191,7 @@
   margin-right: 10px;
 }
 
-.grid-small-btn{
+.grid-small-btn {
   float: left;
   width: 64px;
   height: 32px;
@@ -201,7 +204,7 @@
   background: red;
 }
 
-.grid-medium-btn{
+.grid-medium-btn {
   float: left;
   width: 96px;
   height: 32px;
@@ -210,7 +213,7 @@
   margin-right: 10px;
 }
 
-.grid-large-btn{
+.grid-large-btn {
   float: left;
   width: 128px;
   height: 32px;
@@ -219,7 +222,7 @@
   margin-right: 10px;
 }
 
-.save-map-btn{
+.save-map-btn {
   float: right;
   width: 100px;
   height: 100px;
@@ -228,11 +231,9 @@
   border: 2px solid black;
   margin-right: 10px;
   margin-top: -35px;
-
 }
 
-
-.clear-map-btn{
+.clear-map-btn {
   float: right;
   width: 100px;
   height: 100px;
@@ -243,7 +244,7 @@
   margin-top: -35px;
 }
 
-.levels-wrapper{
+.levels-wrapper {
   width: 1280px;
   height: 530px;
   margin: 0 auto;
@@ -254,7 +255,7 @@
   background: url('../images/bg.png');
 }
 
-.start-btn{
+.start-btn {
   width: 200px;
   height: 50px;
   color: #ffffff;
@@ -265,7 +266,7 @@
   border: 2px solid black;
 }
 
-.editor-btn{
+.editor-btn {
   width: 200px;
   height: 50px;
   background: url('../images/editor-btn.png');
@@ -276,7 +277,7 @@
   border: 2px solid black;
 }
 
-.created-btn{
+.created-btn {
   width: 200px;
   height: 50px;
   background: url('../images/saved-btn.png');
@@ -287,7 +288,7 @@
   border: 2px solid black;
 }
 
-.back-btn{
+.back-btn {
   width: 200px;
   height: 50px;
   background: url('../images/back-btn.png');
@@ -297,7 +298,7 @@
   display: none;
 }
 
-.level-btn{
+.level-btn {
   font-family: SuperMario256;
   font-size: 25px;
   float: left;
@@ -313,8 +314,7 @@
   background: #15a7d9;
 }
 
-
-.delete-all-btn{
+.delete-all-btn {
   width: 100px;
   height: 100px;
   background: url('../images/delete-all-btn.png');
@@ -323,16 +323,16 @@
   margin: 10px;
   position: absolute;
   bottom: 10px;
-  right: 10px;  
+  right: 10px;
 }
 
-.btn-wrapper{
+.btn-wrapper {
   width: 1280px;
   height: 100px;
   margin: 0 auto;
 }
 
-.no-maps{
+.no-maps {
   width: 1000px;
   text-align: center;
   font-family: SuperMario256;

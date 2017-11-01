@@ -10,7 +10,7 @@ function Preloader() {
 
   this.init = function() {
     loadingPercentage = view.create('div');
-    
+
     view.addClass(loadingPercentage, 'loading-percentage');
     view.setHTML(loadingPercentage, '0%');
     view.appendToBody(loadingPercentage);
@@ -40,11 +40,11 @@ function Preloader() {
       22: 'images/saved-btn.png',
       23: 'images/slider-left.png',
       24: 'images/slider-right.png',
-      25: 'images/start-btn.png',
-    }
+      25: 'images/start-btn.png'
+    };
 
     that.loadImages(imageSources);
-  }
+  };
 
   this.loadImages = function(imageSources) {
     var images = {};
@@ -61,7 +61,7 @@ function Preloader() {
 
       images[key].onload = function() {
         loadedImages++;
-        percentage = Math.floor((loadedImages * 100) / totalImages);
+        percentage = Math.floor(loadedImages * 100 / totalImages);
 
         view.setHTML(loadingPercentage, percentage + '%'); //displaying percentage
 
@@ -69,20 +69,17 @@ function Preloader() {
           view.removeFromBody(loadingPercentage);
           that.initMainApp();
         }
-      }
-
+      };
     }
-
-  }
+  };
 
   this.initMainApp = function() {
     var marioMakerInstance = MarioMaker.getInstance();
     marioMakerInstance.init();
-  }
-  
+  };
 }
 
 window.onload = function() {
   var preloader = new Preloader();
   preloader.init();
-}
+};
