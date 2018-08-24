@@ -6,14 +6,13 @@ or simply visit the following link.
 
 http://pratishshr.github.io/mario-maker/
 
-###Controls:
+## Controls:
 
-Mario Game:
 * Right-Arrow/ Left-Arrow : Move right/left,
 * Space/Up-Arrow: Jump,
 * Shift: Sprint,
 * Ctrl: Bullets
 
-LevelEditor:
+## Level Editor:
 * Click and drag the tiles and click on the element you want to put.
 * Save the map, and go to the 'Created Levels' screen to play the game.
