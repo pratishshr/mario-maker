@@ -190,7 +190,7 @@ function Editor() {
   this.drawElement = function(element) {
     /*
       every element that is selected is pushed into 'selectedElement' array
-      after clicking the required element, it loops through the array and sets the class name 
+      after clicking the required element, it loops through the array and sets the class name
       of that cell, changing the background of the cell.
     */
 
@@ -285,6 +285,14 @@ function Editor() {
 
     storage.setItem(levelName, map);
     storage.setItem('levelCounter', levelCounter);
+
+    // Map save message
+    var mapSavedMessage = view.create('div');
+    view.addClass(mapSavedMessage, 'map-saved');
+    view.setHTML(mapSavedMessage, 'Map saved.');
+    view.append(viewPort, mapSavedMessage);
+    // after a second remove the message
+    setTimeout(() => view.remove(viewPort, mapSavedMessage), 1000);
 
     console.log(storage.getItem(levelName)); //for copying the generated map if required
   };

@@ -353,3 +353,17 @@
 .fb-comments {
   margin: 0 auto;
 }
+
+.map-saved {
+  width: 1000px;
+  text-align: center;
+  font-family: SuperMario256;
+  font-size: 25px;
+  margin: 0 auto;
+  color: #ffffff;
+  background: #5fb952;
+  border: 2px solid black;
+  position: absolute;
+  left: 10%;
+  top: 0%;
+}
