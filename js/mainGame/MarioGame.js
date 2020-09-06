@@ -1,4 +1,4 @@
-//Main Class of Mario Game
+// Main Class of Mario Game
 
 function MarioGame() {
   var gameUI = GameUI.getInstance();
