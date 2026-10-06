@@ -31,6 +31,26 @@ function MarioGame() {
   var animationID;
   var timeOutId;
 
+  var TICK_DURATION = 1000 / 60;
+  var MAX_FRAME_TIME = 250;
+  var lastFrameTime = null;
+  var accumulatedTime = 0;
+  var isRunning = false;
+  var prevTranslatedDist = 0;
+
+  var elementTypes = {
+    1: 'platform',
+    2: 'coinBox',
+    3: 'powerUpBox',
+    4: 'uselessBox',
+    5: 'flagPole',
+    6: 'flag',
+    7: 'pipeLeft',
+    8: 'pipeRight',
+    9: 'pipeTopLeft',
+    10: 'pipeTopRight'
+  };
+
   var tickCounter = 0; //for animating mario
   var maxTick = 25; //max number for ticks to show mario sprite
   var instructionTick = 0; //showing instructions counter
@@ -172,31 +192,52 @@ function MarioGame() {
     });
   };
 
-  //Main Game Loop
   this.startGame = function() {
-    animationID = window.requestAnimationFrame(that.startGame);
+    window.cancelAnimationFrame(animationID);
+    isRunning = true;
+    lastFrameTime = null;
+    that.savePreviousPositions();
+    animationID = window.requestAnimationFrame(that.gameLoop);
+  };
 
-    gameUI.clear(0, 0, maxWidth, height);
+  //Main Game Loop
+  this.gameLoop = function(timestamp) {
+    animationID = window.requestAnimationFrame(that.gameLoop);
+
+    if (lastFrameTime === null) {
+      lastFrameTime = timestamp;
+      accumulatedTime = TICK_DURATION * 1.5;
+    } else {
+      accumulatedTime += Math.min(timestamp - lastFrameTime, MAX_FRAME_TIME);
+      lastFrameTime = timestamp;
+    }
+
+    while (accumulatedTime >= TICK_DURATION && isRunning) {
+      that.gameTick();
+      accumulatedTime -= TICK_DURATION;
+    }
+
+    that.render(isRunning ? accumulatedTime / TICK_DURATION : 1);
+  };
+
+  this.gameTick = function() {
+    that.savePreviousPositions();
 
     if (instructionTick < 1000) {
-      that.showInstructions(); //showing control instructions
       instructionTick++;
     }
 
-    that.renderMap();
+    that.updateMap();
 
     for (var i = 0; i < powerUps.length; i++) {
-      powerUps[i].draw();
       powerUps[i].update();
     }
 
     for (var i = 0; i < bullets.length; i++) {
-      bullets[i].draw();
       bullets[i].update();
     }
 
     for (var i = 0; i < goombas.length; i++) {
-      goombas[i].draw();
       goombas[i].update();
     }
 
@@ -204,18 +245,66 @@ function MarioGame() {
     that.checkBulletEnemyCollision();
     that.checkEnemyMarioCollision();
 
-    mario.draw();
     that.updateMario();
     that.wallCollision();
     marioInGround = mario.grounded; //for use with flag sliding
   };
 
+  this.savePreviousPositions = function() {
+    var objects = [mario].concat(powerUps, bullets, goombas);
+
+    for (var i = 0; i < objects.length; i++) {
+      objects[i].prevX = objects[i].x;
+      objects[i].prevY = objects[i].y;
+    }
+    prevTranslatedDist = translatedDist;
+  };
+
+  this.render = function(alpha) {
+    gameUI.setScroll(lerp(prevTranslatedDist, translatedDist, alpha));
+    gameUI.clear(0, 0, maxWidth, height);
+
+    if (instructionTick < 1000) {
+      that.showInstructions(); //showing control instructions
+    }
+
+    that.drawMap();
+
+    var objects = powerUps.concat(bullets, goombas, [mario]);
+
+    for (var i = 0; i < objects.length; i++) {
+      objects[i].draw(lerp(objects[i].prevX, objects[i].x, alpha), lerp(objects[i].prevY, objects[i].y, alpha));
+    }
+  };
+
+  function lerp(previous, current, alpha) {
+    if (previous === undefined) {
+      return current;
+    }
+    return previous + (current - previous) * alpha;
+  }
+
   this.showInstructions = function() {
-    gameUI.writeText('Controls: Arrow keys for direction, shift to run, ctrl for bullets', 30, 30);
+    gameUI.writeText('Controls: Arrow keys or WASD for direction, shift to run, ctrl for bullets', 30, 30);
     gameUI.writeText('Tip: Jumping while running makes you jump higher', 30, 60);
   };
 
-  this.renderMap = function() {
+  this.drawMap = function() {
+    for (var row = 0; row < map.length; row++) {
+      for (var column = 0; column < map[row].length; column++) {
+        var type = elementTypes[map[row][column]];
+
+        if (type) {
+          element.x = column * tileSize;
+          element.y = row * tileSize;
+          element[type]();
+          element.draw();
+        }
+      }
+    }
+  };
+
+  this.updateMap = function() {
     //setting false each time the map renders so that elements fall off a platform and not hover around
     mario.grounded = false;
 
@@ -233,7 +322,6 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.platform();
-            element.draw();
 
             that.checkElementMarioCollision(element, row, column);
             that.checkElementPowerUpCollision(element);
@@ -245,7 +333,6 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.coinBox();
-            element.draw();
 
             that.checkElementMarioCollision(element, row, column);
             that.checkElementPowerUpCollision(element);
@@ -257,7 +344,6 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.powerUpBox();
-            element.draw();
 
             that.checkElementMarioCollision(element, row, column);
             that.checkElementPowerUpCollision(element);
@@ -269,7 +355,6 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.uselessBox();
-            element.draw();
 
             that.checkElementMarioCollision(element, row, column);
             that.checkElementPowerUpCollision(element);
@@ -281,7 +366,6 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.flagPole();
-            element.draw();
 
             that.checkElementMarioCollision(element, row, column);
             break;
@@ -290,14 +374,12 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.flag();
-            element.draw();
             break;
 
           case 7: //pipeLeft
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.pipeLeft();
-            element.draw();
 
             that.checkElementMarioCollision(element, row, column);
             that.checkElementPowerUpCollision(element);
@@ -309,7 +391,6 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.pipeRight();
-            element.draw();
 
             that.checkElementMarioCollision(element, row, column);
             that.checkElementPowerUpCollision(element);
@@ -321,7 +402,6 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.pipeTopLeft();
-            element.draw();
 
             that.checkElementMarioCollision(element, row, column);
             that.checkElementPowerUpCollision(element);
@@ -333,7 +413,6 @@ function MarioGame() {
             element.x = column * tileSize;
             element.y = row * tileSize;
             element.pipeTopRight();
-            element.draw();
 
             that.checkElementMarioCollision(element, row, column);
             that.checkElementPowerUpCollision(element);
@@ -346,7 +425,6 @@ function MarioGame() {
             enemy.x = column * tileSize;
             enemy.y = row * tileSize;
             enemy.goomba();
-            enemy.draw();
 
             goombas.push(enemy);
             map[row][column] = 0;
@@ -657,7 +735,7 @@ function MarioGame() {
 
     mario.checkMarioType();
 
-    if (keys[38] || keys[32]) {
+    if (keys[38] || keys[32] || keys[87]) {
       //up arrow
       if (!mario.jumping && mario.grounded) {
         mario.jumping = true;
@@ -676,7 +754,7 @@ function MarioGame() {
       }
     }
 
-    if (keys[39]) {
+    if (keys[39] || keys[68]) {
       //right arrow
       that.checkMarioPos(); //if mario goes to the center of the screen, sidescroll the map
 
@@ -700,7 +778,7 @@ function MarioGame() {
       }
     }
 
-    if (keys[37]) {
+    if (keys[37] || keys[65]) {
       //left arrow
       if (mario.velX > -mario.speed) {
         mario.velX--;
@@ -782,7 +860,6 @@ function MarioGame() {
 
     //side scrolling as mario reaches center of the viewPort
     if (mario.x > centerPos && centerPos + viewPort / 2 < maxWidth) {
-      gameUI.scrollWindow(-mario.speed, 0);
       translatedDist += mario.speed;
     }
   };
@@ -827,6 +904,7 @@ function MarioGame() {
   };
 
   this.pauseGame = function() {
+    isRunning = false;
     window.cancelAnimationFrame(animationID);
   };
 

@@ -41,8 +41,8 @@ var GameUI = (function() {
       ctx.clearRect(x, y, width, height);
     };
 
-    this.scrollWindow = function(x, y) {
-      ctx.translate(x, y);
+    this.setScroll = function(x) {
+      ctx.setTransform(1, 0, 0, 1, -x, 0);
     };
 
     this.draw = function(image, sx, sy, width, height, x, y, width, height) {

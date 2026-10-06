@@ -31,8 +31,8 @@ function PowerUp() {
     that.sX = 32;
   };
 
-  this.draw = function() {
-    gameUI.draw(element, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
+  this.draw = function(x, y) {
+    gameUI.draw(element, that.sX, that.sY, that.width, that.height, x, y, that.width, that.height);
   };
 
   this.update = function() {

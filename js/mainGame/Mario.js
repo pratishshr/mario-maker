@@ -26,9 +26,9 @@ function Mario() {
     marioSprite.src = 'images/mario-sprites.png';
   };
 
-  this.draw = function() {
+  this.draw = function(x, y) {
     that.sX = that.width * that.frame;
-    gameUI.draw(marioSprite, that.sX, that.sY, that.width, that.height, that.x, that.y, that.width, that.height);
+    gameUI.draw(marioSprite, that.sX, that.sY, that.width, that.height, x, y, that.width, that.height);
   };
 
   this.checkMarioType = function() {
